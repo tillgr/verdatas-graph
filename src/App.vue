@@ -1,31 +1,85 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
+import { isNode, useVueFlow, VueFlow } from '@vue-flow/core';
+import { ref } from 'vue';
+import { initialElements } from './initial-elements.ts';
+
+/**
+ * useVueFlow provides all event handlers and store properties
+ * You can pass the composable an object that has the same properties as the VueFlow component props
+ */
+const { onPaneReady, onNodeDragStop, onConnect, addEdges, setTransform, toObject } = useVueFlow();
+
+/**
+ * Our elements
+ */
+const elements = ref(initialElements);
+
+/**
+ * This is a Vue Flow event-hook which can be listened to from anywhere you call the composable, instead of only on the main component
+ *
+ * onPaneReady is called when viewpane & nodes have visible dimensions
+ */
+onPaneReady(({ fitView }) => {
+  fitView();
+});
+
+onNodeDragStop((e) => console.log('drag stop', e));
+
+/**
+ * onConnect is called when a new connection is created.
+ * You can add additional properties to your new edge (like a type or label) or block the creation altogether
+ */
+onConnect((params) => addEdges([params]));
+
+const dark = ref(false);
+
+/**
+ * To update node properties you can simply use your elements v-model and mutate the elements directly
+ * Changes should always be reflected on the graph reactively, without the need to overwrite the elements
+ */
+const updatePos = () =>
+  elements.value.forEach((el) => {
+    if (isNode(el)) {
+      el.position = {
+        x: Math.random() * 400,
+        y: Math.random() * 400,
+      };
+    }
+  });
+
+/**
+ * toObject transforms your current graph data to an easily persist-able object
+ */
+const logToObject = () => console.log(toObject());
+
+/**
+ * Resets the current viewpane transformation (zoom & pan)
+ */
+const resetTransform = () => setTransform({ x: 0, y: 0, zoom: 1 });
+
+const toggleClass = () => {
+  dark.value = !dark.value;
+  elements.value.forEach((el) => (el.class = dark.value ? 'dark' : 'light'));
+};
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <VueFlow v-model="elements" class="basicflow" :default-zoom="1.5" :min-zoom="0.2" :max-zoom="4">
+    <Background pattern-color="#aaa" gap="8" />
+    <MiniMap />
+    <Controls />
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+    <div class="controls">
+      <button style="background-color: #113285; color: white" @click="resetTransform">reset transform</button>
+      <button style="background-color: #6f3381; color: white" @click="updatePos">update positions</button>
+      <button
+        :style="{ backgroundColor: dark ? '#FFFFFB' : '#1C1C1C', color: dark ? '#1C1C1C' : '#FFFFFB' }"
+        @click="toggleClass"
+      >
+        toggle {{ dark ? 'light' : 'dark' }}
+      </button>
+      <button @click="logToObject">log toObject</button>
+    </div>
+  </VueFlow>
+</template>
