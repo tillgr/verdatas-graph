@@ -4,6 +4,7 @@
 /* this contains the default theme, these are optional styles */
 @import '@vue-flow/core/dist/theme-default.css';
 
+
 html,
 body,
 #app {
@@ -25,4 +26,33 @@ body,
   transform-origin: bottom right;
 }
 
-.basicflow .vue-flow__node.dark{background:#1C1C1C;color:#fffffb}.basicflow .controls{position:absolute;left:10px;top:10px;z-index:4;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.basicflow .controls button{padding:5px;border-radius:5px;font-weight:500;-webkit-box-shadow:0px 5px 10px 0px rgba(0,0,0,.3);box-shadow:0 5px 10px #0000004d;cursor:pointer}.basicflow .controls button:hover{opacity:.8;transform:scale(105%);transition:.25s all ease}
+.validationflow .vue-flow__node {
+  width: 150px;
+  border-radius: 5px;
+  padding: 10px;
+  color: #555;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 12px
+}
+
+.validationflow .vue-flow__node-customnode {
+  background: #e6e6e9;
+  border: 1px solid #ddd
+}
+
+.validationflow .vue-flow__node-custominput .vue-flow__handle {
+  background: #e6e6e9
+}
+
+.validationflow .vue-flow__node-custominput {
+  background: #fff
+}
+
+.validationflow .vue-flow__handle-connecting {
+  background: #ff6060
+}
+
+.validationflow .vue-flow__handle-valid {
+  background: #55dd99
+}
