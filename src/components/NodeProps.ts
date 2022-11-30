@@ -1,11 +1,11 @@
 export const customProps = {
   isValidTargetPos: {
     type: Function,
-    required: false,
+    required: true,
   },
   isValidSourcePos: {
     type: Function,
-    required: false,
+    required: true,
   },
   id: {
     type: String,
