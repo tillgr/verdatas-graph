@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { Connection, ConnectionMode, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, ConnectionMode, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
+import Sidebar from './components/Sidebar.vue';
+import { ref } from 'vue';
 
-const { addEdges, nodes } = useVueFlow({
+let id = 0;
+const getId = () => `dndnode_${id++}`;
+
+const { addEdges, nodes, onConnect, addNodes, project } = useVueFlow({
   nodes: [
     {
       id: 'module',
@@ -41,6 +46,14 @@ const { addEdges, nodes } = useVueFlow({
   ],
 });
 
+const onDragOver = (event: DragEvent) => {
+  event.preventDefault();
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move';
+  }
+};
+const wrapper = ref();
+
 const checkType = (id: string, type: string): boolean => {
   const node = nodes.value.filter((el) => {
     return el.id === id;
@@ -52,33 +65,54 @@ const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
   console.log('on connect start', { nodeId, handleType });
 const onConnectEnd = (event: Event) => console.log('on connect end', event);
-const onConnect = (params: Connection) => {
+onConnect((params: Connection) => {
   console.log('on connect', params);
   addEdges([params]);
+});
+onConnect((params) => addEdges([params]));
+const onDrop = (event: DragEvent) => {
+  const type = event.dataTransfer?.getData('application/vueflow');
+  const flowbounds = wrapper.value.$el.getBoundingClientRect();
+  const position = project({
+    x: event.clientX - flowbounds.left,
+    y: event.clientY - flowbounds.top,
+  });
+  const newNode = {
+    id: getId(),
+    type,
+    position,
+    label: `${type} node`,
+  } as Node;
+  addNodes([newNode]);
 };
 </script>
 
 <template>
-  <VueFlow
-    fit-view-on-init
-    class="validationflow"
-    @connect="onConnect"
-    @pane-ready="onLoad"
-    @connect-start="onConnectStart"
-    @connect-end="onConnectEnd"
-    :connection-mode="ConnectionMode.Strict"
-  >
-    <template #node-module="props">
-      <Module v-bind="props" />
-    </template>
-    <template #node-chapter="props">
-      <Chapter v-bind="props" />
-    </template>
-    <template #node-topic="props">
-      <Topic v-bind="props" />
-    </template>
-    <template #node-interactivetask="props">
-      <InteractiveTask v-bind="props" />
-    </template>
-  </VueFlow>
+  <div class="dndflow" @drop="onDrop">
+    <VueFlow
+      fit-view-on-init
+      class="validationflow"
+      ref="wrapper"
+      @dragover="onDragOver"
+      @connect="onConnect"
+      @pane-ready="onLoad"
+      @connect-start="onConnectStart"
+      @connect-end="onConnectEnd"
+      :connection-mode="ConnectionMode.Strict"
+    >
+      <template #node-module="props">
+        <Module v-bind="props" />
+      </template>
+      <template #node-chapter="props">
+        <Chapter v-bind="props" />
+      </template>
+      <template #node-topic="props">
+        <Topic v-bind="props" />
+      </template>
+      <template #node-interactivetask="props">
+        <InteractiveTask v-bind="props" />
+      </template>
+    </VueFlow>
+    <Sidebar />
+  </div>
 </template>
