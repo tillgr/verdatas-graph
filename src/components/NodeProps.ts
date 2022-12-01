@@ -10,4 +10,10 @@ export const customProps = {
   id: {
     type: String,
   },
+  type: {
+    type: String,
+  },
+  metaParent: {
+    type: String,
+  },
 };

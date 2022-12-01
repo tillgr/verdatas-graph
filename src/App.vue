@@ -11,40 +11,44 @@ import { ref } from 'vue';
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const { addEdges, nodes, onConnect, addNodes, project } = useVueFlow({
-  nodes: [
-    {
-      id: 'module',
-      type: 'module',
-      position: { x: 250, y: 0 },
-      isValidSourcePos: (connection: Connection) => checkType(connection.source, 'topic'),
-      isValidTargetPos: () => false,
-    },
-    {
-      id: 'topic',
-      type: 'topic',
-      position: { x: 250, y: 150 },
-      //Called when source handle is used for connection
-      isValidSourcePos: (connection: Connection) => checkType(connection.source, 'chapter'),
-      //Called when target handle is used for connection
-      isValidTargetPos: (connection: Connection) => checkType(connection.target, 'module'),
-    },
-    {
-      id: 'chapter',
-      type: 'chapter',
-      position: { x: 250, y: 300 },
-      isValidSourcePos: (connection: Connection) => checkType(connection.source, 'interactivetask'),
-      isValidTargetPos: (connection: Connection) => checkType(connection.target, 'topic'),
-    },
-    {
-      id: 'interactive_task',
-      type: 'interactivetask',
-      position: { x: 250, y: 450 },
-      isValidSourcePos: () => false,
-      isValidTargetPos: (connection: Connection) => checkType(connection.target, 'chapter'),
-    },
-  ],
-});
+const initNodes = ref([
+  {
+    id: 'module',
+    type: 'module',
+    position: { x: 250, y: 0 },
+    metaParent: '',
+    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'topic'),
+    isValidTargetPos: () => false,
+  },
+  {
+    id: 'topic',
+    type: 'topic',
+    position: { x: 250, y: 150 },
+    metaParent: 'module',
+    //Called when source handle is used for connection
+    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'chapter'),
+    //Called when target handle is used for connection
+    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'module'),
+  },
+  {
+    id: 'chapter',
+    type: 'chapter',
+    position: { x: 250, y: 300 },
+    metaParent: 'topic',
+    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'interactivetask'),
+    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'topic'),
+  },
+  {
+    id: 'interactive_task',
+    type: 'interactivetask',
+    position: { x: 250, y: 450 },
+    metaParent: 'chapter',
+    isValidSourcePos: () => false,
+    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'chapter'),
+  },
+]);
+
+const { addEdges, nodes, onConnect, addNodes, project } = useVueFlow();
 
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
@@ -54,7 +58,7 @@ const onDragOver = (event: DragEvent) => {
 };
 const wrapper = ref();
 
-const checkType = (id: string, type: string): boolean => {
+const checkType = (id: string, type?: string): boolean => {
   const node = nodes.value.filter((el) => {
     return el.id === id;
   })[0];
@@ -71,8 +75,10 @@ onConnect((params: Connection) => {
 });
 onConnect((params) => addEdges([params]));
 const onDrop = (event: DragEvent) => {
-  const type = event.dataTransfer?.getData('application/vueflow');
-  console.log('NODE TYPE', type);
+  const type = event.dataTransfer?.getData('application/vueflow/type');
+  const metaParent = event.dataTransfer?.getData('application/vueflow/metaParent');
+  console.log(metaParent);
+
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
@@ -83,6 +89,9 @@ const onDrop = (event: DragEvent) => {
     type,
     position,
     label: `${type} node`,
+    metaParent,
+    isValidSourcePos: (connection: Connection) => checkType(connection.source, type),
+    isValidTargetPos: (connection: Connection) => checkType(connection.target, metaParent),
   } as Node;
   addNodes([newNode]);
 };
@@ -114,6 +123,6 @@ const onDrop = (event: DragEvent) => {
         <InteractiveTask v-bind="props" />
       </template>
     </VueFlow>
-    <Sidebar :nodes="nodes" />
+    <Sidebar :nodes="initNodes" />
   </div>
 </template>
