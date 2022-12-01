@@ -72,6 +72,7 @@ onConnect((params: Connection) => {
 onConnect((params) => addEdges([params]));
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow');
+  console.log('NODE TYPE', type);
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
@@ -113,6 +114,6 @@ const onDrop = (event: DragEvent) => {
         <InteractiveTask v-bind="props" />
       </template>
     </VueFlow>
-    <Sidebar />
+    <Sidebar :nodes="nodes" />
   </div>
 </template>

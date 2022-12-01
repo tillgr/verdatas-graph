@@ -5,27 +5,21 @@ const onDragStart = (event: DragEvent, nodeType: string) => {
     event.dataTransfer.effectAllowed = 'move';
   }
 };
+const props = defineProps(['nodes']);
+
+console.log(props.nodes);
 </script>
 
 <template>
   <aside>
     <div class="description">You can drag these nodes to the pane on the left.</div>
-    <div class="vue-flow__node-input" :draggable="true" @dragstart="(event: DragEvent) => onDragStart(event, 'input')">
-      Input Node
-    </div>
     <div
-      class="vue-flow__node-default"
+      v-for="node in props.nodes"
+      class="vue-flow__node-{{node.type}}"
       :draggable="true"
-      @dragstart="(event: DragEvent) => onDragStart(event, 'default')"
+      @dragstart="(event: DragEvent) => onDragStart(event, node.type)"
     >
-      Default Node
-    </div>
-    <div
-      class="vue-flow__node-output"
-      :draggable="true"
-      @dragstart="(event: DragEvent) => onDragStart(event, 'output')"
-    >
-      Output Node
+      {{ node.type }}
     </div>
   </aside>
 </template>
