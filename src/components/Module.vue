@@ -8,6 +8,7 @@ const props = defineProps(customProps);
 <script>
 export default {
   name: 'Module',
+  inheritAttrs: false,
 };
 </script>
 

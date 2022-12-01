@@ -8,6 +8,7 @@ const props = defineProps(customProps);
 <script>
 export default {
   name: 'Topic',
+  inheritAttrs: false,
 };
 </script>
 
