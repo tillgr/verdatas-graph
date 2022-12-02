@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Connection, ConnectionMode, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
-
+import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
@@ -77,7 +77,7 @@ const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
   console.log('on connect start', { nodeId, handleType });
 const onConnectEnd = (event: Event) => console.log('on connect end', event);
-const onConnect = (params: Connection) => addEdges([params]);
+const onConnect = (params: Connection) => addEdges([{ ...params, type: 'smoothstep' }]);
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type');
   const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType');
@@ -128,6 +128,9 @@ const onDrop = (event: DragEvent) => {
       <template #node-interactivetask="props">
         <InteractiveTask v-bind="props" />
       </template>
+      <MiniMap />
+      <Background pattern-color="#aaa" gap="8" />
+      <Controls />
     </VueFlow>
     <Sidebar :nodes="initNodes" />
   </div>

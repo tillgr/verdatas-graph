@@ -33,7 +33,40 @@ body,
   color: #555;
   border: 1px solid #ddd;
   text-align: center;
-  font-size: 12px
+  font-size: 12px;
+  background-color: white;
+}
+
+.validationflow .vue-flow__node-module {
+  border-color: deepskyblue;
+}
+
+.validationflow .vue-flow__node-module .vue-flow__handle {
+  background: deepskyblue;
+}
+
+.validationflow .vue-flow__node-topic {
+  border-color: orange;
+}
+
+.validationflow .vue-flow__node-topic .vue-flow__handle {
+  background: orange;
+}
+
+.validationflow .vue-flow__node-chapter {
+  border-color: deeppink;
+}
+
+.validationflow .vue-flow__node-chapter .vue-flow__handle {
+  background: deeppink;
+}
+
+.validationflow .vue-flow__node-interactivetask {
+  border-color: limegreen;
+}
+
+.validationflow .vue-flow__node-interactivetask .vue-flow__handle {
+  background: limegreen;
 }
 
 .validationflow .vue-flow__node-customnode {
@@ -68,7 +101,7 @@ body,
   border-right: 1px solid #eee;
   padding: 15px 10px;
   font-size: 12px;
-  background: rgba(16,185,129,.75)
+  background: rgba(16, 185, 129, .75)
 }
 
 .dndflow aside > * {
