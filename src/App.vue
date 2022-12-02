@@ -6,6 +6,7 @@ import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
+import ConnectionLine from './components/SnappableConnectionLine.vue';
 import { ref } from 'vue';
 
 let id = 0;
@@ -128,6 +129,17 @@ const onDrop = (event: DragEvent) => {
       <template #node-interactivetask="props">
         <InteractiveTask v-bind="props" />
       </template>
+      <template #connection-line="{ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }">
+        <ConnectionLine
+          :source-x="sourceX"
+          :source-y="sourceY"
+          :target-x="targetX"
+          :target-y="targetY"
+          :source-position="sourcePosition"
+          :target-position="targetPosition"
+        />
+      </template>
+
       <MiniMap />
       <Background pattern-color="#aaa" gap="8" />
       <Controls />

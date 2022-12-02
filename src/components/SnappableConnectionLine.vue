@@ -11,11 +11,13 @@ interface CustomConnectionLineProps extends ConnectionLineProps {
   sourcePosition: Position;
   targetPosition: Position;
 }
+
 interface ClosestElements {
   node: GraphNode | null;
   handle: HandleElement | null;
   startHandle: StartHandle | null;
 }
+
 const props = defineProps<CustomConnectionLineProps>();
 const { getNodes, connectionStartHandle, onConnectEnd, addEdges } = useVueFlow();
 const closest = reactive<ClosestElements>({
