@@ -26,46 +26,45 @@ body,
   transform-origin: bottom right;
 }
 
-.validationflow .vue-flow__node {
+.vue-flow__node {
   width: 150px;
   border-radius: 5px;
   padding: 10px;
   color: #555;
-  border: 1px solid #ddd;
   text-align: center;
   font-size: 12px;
   background-color: white;
 }
 
-.validationflow .vue-flow__node-module {
-  border-color: deepskyblue;
+.vue-flow__node-module {
+  border: deepskyblue 1px solid;
 }
 
-.validationflow .vue-flow__node-module .vue-flow__handle {
+.vue-flow__node-module .vue-flow__handle {
   background: deepskyblue;
 }
 
-.validationflow .vue-flow__node-topic {
-  border-color: orange;
+.vue-flow__node-topic {
+  border: orange 1px solid;
 }
 
-.validationflow .vue-flow__node-topic .vue-flow__handle {
+.vue-flow__node-topic .vue-flow__handle {
   background: orange;
 }
 
-.validationflow .vue-flow__node-chapter {
-  border-color: deeppink;
+.vue-flow__node-chapter {
+  border: deeppink 1px solid;
 }
 
-.validationflow .vue-flow__node-chapter .vue-flow__handle {
+.vue-flow__node-chapter .vue-flow__handle {
   background: deeppink;
 }
 
-.validationflow .vue-flow__node-interactivetask {
-  border-color: limegreen;
+.vue-flow__node-interactivetask {
+  border: limegreen 1px solid;
 }
 
-.validationflow .vue-flow__node-interactivetask .vue-flow__handle {
+.vue-flow__node-interactivetask .vue-flow__handle {
   background: limegreen;
 }
 
@@ -101,7 +100,7 @@ body,
   border-right: 1px solid #eee;
   padding: 15px 10px;
   font-size: 12px;
-  background: rgba(16, 185, 129, .75)
+  background: rgba(239, 239, 239, 0.75)
 }
 
 .dndflow aside > * {
