@@ -5,6 +5,7 @@ const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('application/vueflow/type', node.type || '');
     event.dataTransfer.setData('application/vueflow/metaParentType', node.data.metaParentType);
+    event.dataTransfer.setData('application/vueflow/metaChildType', node.data.metaChildType);
     event.dataTransfer.effectAllowed = 'move';
   }
 };

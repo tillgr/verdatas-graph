@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, ConnectionMode, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -10,36 +10,31 @@ import { ref } from 'vue';
 
 const initNodes = ref([
   {
-    id: 'module',
-    type: 'module',
+    id: 'topic',
+    type: 'topic',
     position: { x: 250, y: 0 },
     data: {
       metaParentType: '',
+      metaChildType: 'module',
     },
-    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'topic'),
-    isValidTargetPos: () => false,
   },
   {
-    id: 'topic',
-    type: 'topic',
+    id: 'module',
+    type: 'module',
     position: { x: 250, y: 150 },
     data: {
-      metaParentType: 'module',
+      metaParentType: 'topic',
+      metaChildType: 'chapter',
     },
-    //Called when source handle is used for connection
-    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'chapter'),
-    //Called when target handle is used for connection
-    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'module'),
   },
   {
     id: 'chapter',
     type: 'chapter',
     position: { x: 250, y: 300 },
     data: {
-      metaParentType: 'topic',
+      metaParentType: 'module',
+      metaChildType: 'interactivetask',
     },
-    isValidSourcePos: (connection: Connection) => checkType(connection.source, 'interactivetask'),
-    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'topic'),
   },
   {
     id: 'interactive_task',
@@ -47,9 +42,8 @@ const initNodes = ref([
     position: { x: 250, y: 450 },
     data: {
       metaParentType: 'chapter',
+      metaChildType: '',
     },
-    isValidSourcePos: () => false,
-    isValidTargetPos: (connection: Connection) => checkType(connection.target, 'chapter'),
   },
 ]);
 
@@ -57,11 +51,16 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 const { addEdges, nodes, addNodes, project } = useVueFlow();
 const wrapper = ref();
-const checkType = (id: string, type?: string): boolean => {
+
+const checkTypes = (id: string, types?: string[]): boolean => {
   const node = nodes.value.filter((el) => {
     return el.id === id;
   })[0];
-  return node?.type === type;
+  const result = types?.some((type) => type === node?.type);
+  console.log('types', types);
+  console.log('result', result);
+  console.log('type', node?.type);
+  return result || false;
 };
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -82,8 +81,8 @@ const onDragOver = (event: DragEvent) => {
 
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type');
-  const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType');
-  console.log(metaParentType);
+  const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType') || '';
+  const metaChildType = event.dataTransfer?.getData('application/vueflow/metaChildType') || '';
 
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
@@ -97,9 +96,10 @@ const onDrop = (event: DragEvent) => {
     label: `${type} node`,
     data: {
       metaParentType,
+      metaChildType,
     },
-    isValidSourcePos: (connection: Connection) => checkType(connection.source, type),
-    isValidTargetPos: (connection: Connection) => checkType(connection.target, metaParentType),
+    isValidSourcePos: (connection: Connection) => checkTypes(connection.source, [metaParentType, metaChildType]),
+    isValidTargetPos: (connection: Connection) => checkTypes(connection.target, [metaParentType, metaChildType]),
   } as Node;
   addNodes([newNode]);
 };
@@ -116,7 +116,6 @@ const onDrop = (event: DragEvent) => {
       @pane-ready="onLoad"
       @connect-start="onConnectStart"
       @connect-end="onConnectEnd"
-      :connection-mode="ConnectionMode.Strict"
     >
       <template #node-module="props">
         <Module v-bind="props" />

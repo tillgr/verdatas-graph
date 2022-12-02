@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-  <Handle type="source" :position="Position.Top" :is-valid-connection="props.isValidTargetPos" />
+  <Handle type="target" :position="Position.Top" :is-valid-connection="props.isValidSourcePos" />
   <div>ID: {{ props.id }}</div>
   <div>Type: {{ props.type }}</div>
   <div>Parent: {{ props.data.metaParentType }}</div>
