@@ -16,7 +16,9 @@ const initNodes = ref([
     id: 'module',
     type: 'module',
     position: { x: 250, y: 0 },
-    metaParent: '',
+    data: {
+      metaParentType: '',
+    },
     isValidSourcePos: (connection: Connection) => checkType(connection.source, 'topic'),
     isValidTargetPos: () => false,
   },
@@ -24,7 +26,9 @@ const initNodes = ref([
     id: 'topic',
     type: 'topic',
     position: { x: 250, y: 150 },
-    metaParent: 'module',
+    data: {
+      metaParentType: 'module',
+    },
     //Called when source handle is used for connection
     isValidSourcePos: (connection: Connection) => checkType(connection.source, 'chapter'),
     //Called when target handle is used for connection
@@ -34,7 +38,9 @@ const initNodes = ref([
     id: 'chapter',
     type: 'chapter',
     position: { x: 250, y: 300 },
-    metaParent: 'topic',
+    data: {
+      metaParentType: 'topic',
+    },
     isValidSourcePos: (connection: Connection) => checkType(connection.source, 'interactivetask'),
     isValidTargetPos: (connection: Connection) => checkType(connection.target, 'topic'),
   },
@@ -42,13 +48,15 @@ const initNodes = ref([
     id: 'interactive_task',
     type: 'interactivetask',
     position: { x: 250, y: 450 },
-    metaParent: 'chapter',
+    data: {
+      metaParentType: 'chapter',
+    },
     isValidSourcePos: () => false,
     isValidTargetPos: (connection: Connection) => checkType(connection.target, 'chapter'),
   },
 ]);
 
-const { addEdges, nodes, onConnect, addNodes, project } = useVueFlow();
+const { addEdges, nodes, addNodes, project } = useVueFlow();
 
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
@@ -69,15 +77,11 @@ const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
   console.log('on connect start', { nodeId, handleType });
 const onConnectEnd = (event: Event) => console.log('on connect end', event);
-onConnect((params: Connection) => {
-  console.log('on connect', params);
-  addEdges([params]);
-});
-onConnect((params) => addEdges([params]));
+const onConnect = (params: Connection) => addEdges([params]);
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type');
-  const metaParent = event.dataTransfer?.getData('application/vueflow/metaParent');
-  console.log(metaParent);
+  const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType');
+  console.log(metaParentType);
 
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
@@ -89,9 +93,11 @@ const onDrop = (event: DragEvent) => {
     type,
     position,
     label: `${type} node`,
-    metaParent,
+    data: {
+      metaParentType,
+    },
     isValidSourcePos: (connection: Connection) => checkType(connection.source, type),
-    isValidTargetPos: (connection: Connection) => checkType(connection.target, metaParent),
+    isValidTargetPos: (connection: Connection) => checkType(connection.target, metaParentType),
   } as Node;
   addNodes([newNode]);
 };

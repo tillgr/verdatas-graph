@@ -3,6 +3,7 @@ import { Handle, Position } from '@vue-flow/core';
 import { customProps } from './NodeProps.ts';
 
 const props = defineProps(customProps);
+console.log(props);
 </script>
 
 <script>
@@ -17,7 +18,7 @@ export default {
   <Handle type="source" :position="Position.Right" :is-valid-connection="props.isValidTargetPos" />
   <div>ID: {{ props.id }}</div>
   <div>Type: {{ props.type }}</div>
-  <div>Parent: {{ props.metaParent }}</div>
+  <div>Parent: {{ props.data.metaParentType }}</div>
 </template>
 
 <style scoped></style>

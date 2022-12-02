@@ -9,11 +9,16 @@ export const customProps = {
   },
   id: {
     type: String,
+    required: true,
   },
   type: {
     type: String,
+    required: true,
   },
-  metaParent: {
-    type: String,
+  data: {
+    metaParentType: {
+      type: String,
+      required: true,
+    },
   },
 };

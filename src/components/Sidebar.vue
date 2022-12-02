@@ -1,19 +1,14 @@
 <script lang="ts" setup>
-type NodeData = {
-  type: string;
-  metaParent: string;
-};
+import { Node } from '@vue-flow/core';
 
-const onDragStart = (event: DragEvent, data: NodeData) => {
+const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
-    event.dataTransfer.setData('application/vueflow/type', data.type);
-    event.dataTransfer.setData('application/vueflow/metaParent', data.metaParent);
+    event.dataTransfer.setData('application/vueflow/type', node.type || '');
+    event.dataTransfer.setData('application/vueflow/metaParentType', node.data.metaParentType);
     event.dataTransfer.effectAllowed = 'move';
   }
 };
 const props = defineProps(['nodes']);
-
-console.log(props.nodes);
 </script>
 
 <template>
@@ -23,7 +18,7 @@ console.log(props.nodes);
       v-for="node in props.nodes"
       class="vue-flow__node-{{node.type}}"
       :draggable="true"
-      @dragstart="(event: DragEvent) => onDragStart(event, {type: node.type, metaParent: node.metaParent})"
+      @dragstart="(event: DragEvent) => onDragStart(event, node)"
     >
       {{ node.type }}
     </div>

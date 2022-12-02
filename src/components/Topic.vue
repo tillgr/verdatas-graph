@@ -17,7 +17,7 @@ export default {
   <Handle type="source" :position="Position.Right" :is-valid-connection="props.isValidTargetPos" />
   <div>ID: {{ props.id }}</div>
   <div>Type: {{ props.type }}</div>
-  <div>Parent: {{ props.metaParent }}</div>
+  <div>Parent: {{ props.data.metaParentType }}</div>
 </template>
 
 <style scoped></style>
