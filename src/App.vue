@@ -56,11 +56,7 @@ const checkTypes = (id: string, types?: string[]): boolean => {
   const node = nodes.value.filter((el) => {
     return el.id === id;
   })[0];
-  const result = types?.some((type) => type === node?.type);
-  console.log('types', types);
-  console.log('result', result);
-  console.log('type', node?.type);
-  return result || false;
+  return types?.some((type) => type === node?.type) || false;
 };
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -107,6 +103,7 @@ const onDrop = (event: DragEvent) => {
 
 <template>
   <div class="dndflow" @drop="onDrop">
+    <Sidebar :nodes="initNodes" />
     <VueFlow
       fit-view-on-init
       class="validationflow"
@@ -133,6 +130,5 @@ const onDrop = (event: DragEvent) => {
       <Background pattern-color="#aaa" gap="8" />
       <Controls />
     </VueFlow>
-    <Sidebar :nodes="initNodes" />
   </div>
 </template>
