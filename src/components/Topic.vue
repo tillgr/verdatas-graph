@@ -13,8 +13,8 @@ export default {
 </script>
 
 <template>
-  <Handle type="target" :position="Position.Left" :is-valid-connection="props.isValidSourcePos" />
-  <Handle type="source" :position="Position.Right" :is-valid-connection="props.isValidTargetPos" />
+  <Handle type="target" :position="Position.Bottom" :is-valid-connection="props.isValidSourcePos" />
+  <Handle type="source" :position="Position.Top" :is-valid-connection="props.isValidTargetPos" />
   <div>ID: {{ props.id }}</div>
   <div>Type: {{ props.type }}</div>
   <div>Parent: {{ props.data.metaParentType }}</div>
