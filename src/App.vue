@@ -8,9 +8,6 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
-
 const initNodes = ref([
   {
     id: 'module',
@@ -56,16 +53,10 @@ const initNodes = ref([
   },
 ]);
 
+let id = 0;
+const getId = () => `dndnode_${id++}`;
 const { addEdges, nodes, addNodes, project } = useVueFlow();
-
-const onDragOver = (event: DragEvent) => {
-  event.preventDefault();
-  if (event.dataTransfer) {
-    event.dataTransfer.dropEffect = 'move';
-  }
-};
 const wrapper = ref();
-
 const checkType = (id: string, type?: string): boolean => {
   const node = nodes.value.filter((el) => {
     return el.id === id;
@@ -74,10 +65,21 @@ const checkType = (id: string, type?: string): boolean => {
 };
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
+
 const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
   console.log('on connect start', { nodeId, handleType });
+
 const onConnectEnd = (event: Event) => console.log('on connect end', event);
+
 const onConnect = (params: Connection) => addEdges([{ ...params, type: 'smoothstep' }]);
+
+const onDragOver = (event: DragEvent) => {
+  event.preventDefault();
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move';
+  }
+};
+
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type');
   const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType');
