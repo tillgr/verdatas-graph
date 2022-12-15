@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, GraphEdge, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -7,6 +7,7 @@ import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
+import { nodeUtils } from './utils';
 
 const initNodes = ref([
   {
@@ -49,43 +50,8 @@ const initNodes = ref([
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const { edges, addEdges, nodes, addNodes, project } = useVueFlow();
+const { addEdges, addNodes, project } = useVueFlow();
 const wrapper = ref();
-
-const getNodeById = (id: string): Node | undefined => {
-  return nodes.value.filter((el) => {
-    return el.id === id;
-  })[0];
-};
-
-const edgeContainsNode = (edge: GraphEdge, node: Node) => {
-  return edge.id.includes(node.id);
-};
-
-const edgeContainsType = (edge: GraphEdge, type: string) => {
-  return edge.sourceNode.type === type || edge.targetNode.type === type;
-};
-
-const compareTypes = (id: string, types?: string[]): boolean => {
-  const node = getNodeById(id);
-  return types?.some((type) => type === node?.type) || false;
-};
-
-const hasNoParent = (connection: Connection): boolean => {
-  const source = getNodeById(connection.source);
-  const target = getNodeById(connection.target);
-
-  if (!(source && target)) {
-    return false;
-  }
-  const sourceParentType = source?.data.metaParentType;
-  const targetType = target.type;
-
-  const child = targetType === sourceParentType ? source : target;
-  return !edges.value.some(
-    (edge) => edgeContainsNode(edge, child) && edgeContainsType(edge, child.data.metaParentType)
-  );
-};
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -125,9 +91,11 @@ const onDrop = (event: DragEvent) => {
       metaChildType,
     },
     isValidSourcePos: (connection: Connection) =>
-      compareTypes(connection.source, [metaParentType, metaChildType]) && hasNoParent(connection),
+      nodeUtils.compareNodeTypes(connection.source, [metaParentType, metaChildType]) &&
+      nodeUtils.checkForMultipleParents(connection),
     isValidTargetPos: (connection: Connection) =>
-      compareTypes(connection.target, [metaParentType, metaChildType]) && hasNoParent(connection),
+      nodeUtils.compareNodeTypes(connection.target, [metaParentType, metaChildType]) &&
+      nodeUtils.checkForMultipleParents(connection),
   } as Node;
   addNodes([newNode]);
 };
