@@ -1,4 +1,4 @@
-export const customProps = {
+export const customNodeProps = {
   isValidTargetPos: {
     type: Function,
     required: true,

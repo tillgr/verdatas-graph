@@ -1,8 +1,8 @@
 <script setup>
 import { Handle, Position } from '@vue-flow/core';
-import { customProps } from './NodeProps.ts';
+import { customNodeProps } from './CustomNodeProps.ts';
 
-const props = defineProps(customProps);
+const props = defineProps(customNodeProps);
 </script>
 
 <script>

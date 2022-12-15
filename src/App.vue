@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -8,6 +8,7 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
 import { nodeUtils } from './utils';
+import { CustomNode } from 'models/CustomNode';
 
 const initNodes = ref([
   {
@@ -96,7 +97,7 @@ const onDrop = (event: DragEvent) => {
     isValidTargetPos: (connection: Connection) =>
       nodeUtils.compareNodeTypes(connection.target, [metaParentType, metaChildType]) &&
       nodeUtils.checkForMultipleParents(connection),
-  } as Node;
+  } as CustomNode;
   addNodes([newNode]);
 };
 </script>
