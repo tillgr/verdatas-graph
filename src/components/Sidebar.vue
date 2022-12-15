@@ -22,8 +22,21 @@ const handleExport = () => {
   a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
   a.click();
   window.URL.revokeObjectURL(a.href);
+};
 
-  //console.log(props.toObject());
+const handleImport = (e: Event) => {
+  const file = (<HTMLInputElement>e?.target).files?.[0];
+  console.log();
+
+  const fr = new FileReader();
+
+  fr.onload = (e) => {
+    if (typeof e.target?.result === 'string') {
+      const result = JSON.parse(e.target.result);
+      console.log(JSON.stringify(result, null, 2));
+    }
+  };
+  file && fr.readAsText(file);
 };
 </script>
 
@@ -40,10 +53,23 @@ const handleExport = () => {
       {{ node.type }}
     </div>
     <button @click="handleExport">Export graph</button>
+    <div class="file-input">
+      <label for="file-input">Import JSON</label>
+      <input type="file" id="selectFiles" accept=".json" name="file-input" @change="(e) => handleImport(e)" />
+    </div>
   </aside>
 </template>
 
 <style scoped>
+.file-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-input * {
+  width: fit-content;
+}
+
 .node-templates {
   width: 150px;
   border-radius: 5px;
