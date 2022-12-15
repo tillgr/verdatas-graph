@@ -53,7 +53,7 @@ const handleImport = (e: Event) => {
     >
       {{ node.type }}
     </div>
-    <button @click="handleExport">Export graph</button>
+    <button class="export-button" @click="handleExport">Export graph</button>
     <div class="file-input">
       <label for="file-input">Import JSON</label>
       <input type="file" id="selectFiles" accept=".json" name="file-input" @change="(e) => handleImport(e)" />
@@ -79,5 +79,15 @@ const handleImport = (e: Event) => {
   text-align: center;
   font-size: 12px;
   background-color: white;
+}
+
+aside {
+  min-width: 260px;
+}
+
+.export-button {
+  margin-right: auto;
+  margin-top: 2rem;
+  display: block;
 }
 </style>
