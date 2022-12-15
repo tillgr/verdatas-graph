@@ -7,8 +7,8 @@ import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
-import { nodeUtils } from './utils';
 import { CustomNode } from './models/CustomNode';
+import { nodeUtils } from './utils';
 
 const initNodes = ref([
   {
@@ -51,7 +51,7 @@ const initNodes = ref([
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const { addEdges, addNodes, project, nodes, edges } = useVueFlow();
+const { addEdges, addNodes, project, nodes, edges, toObject } = useVueFlow();
 const wrapper = ref();
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -104,7 +104,7 @@ const onDrop = (event: DragEvent) => {
 
 <template>
   <div class="dndflow" @drop="onDrop">
-    <Sidebar :nodes="initNodes" />
+    <Sidebar :nodes="initNodes" :to-object="toObject" />
     <VueFlow
       fit-view-on-init
       class="validationflow"

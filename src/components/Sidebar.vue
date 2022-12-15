@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { Node } from '@vue-flow/core';
 
+const props = defineProps(['nodes', 'toObject']);
+defineEmits(['export']);
+
 const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('application/vueflow/type', node.type || '');
@@ -9,7 +12,19 @@ const onDragStart = (event: DragEvent, node: Node) => {
     event.dataTransfer.effectAllowed = 'move';
   }
 };
-const props = defineProps(['nodes']);
+const handleExport = () => {
+  const data = JSON.stringify(props.toObject());
+  const blob = new Blob([data], { type: 'text/plain' });
+  const a = document.createElement('a');
+
+  a.download = 'test.json';
+  a.href = window.URL.createObjectURL(blob);
+  a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+  a.click();
+  window.URL.revokeObjectURL(a.href);
+
+  //console.log(props.toObject());
+};
 </script>
 
 <template>
@@ -24,6 +39,7 @@ const props = defineProps(['nodes']);
     >
       {{ node.type }}
     </div>
+    <button @click="handleExport">Export graph</button>
   </aside>
 </template>
 
