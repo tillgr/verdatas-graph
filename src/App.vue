@@ -51,7 +51,7 @@ const initNodes = ref([
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const { addEdges, addNodes, project, nodes, edges, toObject } = useVueFlow();
+const { addEdges, addNodes, project, nodes, edges } = useVueFlow();
 const wrapper = ref();
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -104,7 +104,7 @@ const onDrop = (event: DragEvent) => {
 
 <template>
   <div class="dndflow" @drop="onDrop">
-    <Sidebar :nodes="initNodes" :to-object="toObject" />
+    <Sidebar :nodes="initNodes" />
     <VueFlow
       fit-view-on-init
       class="validationflow"

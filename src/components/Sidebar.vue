@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { Node } from '@vue-flow/core';
+import { Node, useVueFlow } from '@vue-flow/core';
 
-const props = defineProps(['nodes', 'toObject']);
-defineEmits(['export']);
+const props = defineProps(['nodes']);
+
+const { toObject } = useVueFlow();
 
 const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
@@ -13,7 +14,7 @@ const onDragStart = (event: DragEvent, node: Node) => {
   }
 };
 const handleExport = () => {
-  const data = JSON.stringify(props.toObject());
+  const data = JSON.stringify(toObject());
   const blob = new Blob([data], { type: 'text/plain' });
   const a = document.createElement('a');
 
