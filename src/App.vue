@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, GraphEdge, Node, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -49,14 +49,42 @@ const initNodes = ref([
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const { addEdges, nodes, addNodes, project } = useVueFlow();
+const { edges, addEdges, nodes, addNodes, project } = useVueFlow();
 const wrapper = ref();
 
-const checkTypes = (id: string, types?: string[]): boolean => {
-  const node = nodes.value.filter((el) => {
+const getNodeById = (id: string): Node | undefined => {
+  return nodes.value.filter((el) => {
     return el.id === id;
   })[0];
+};
+
+const edgeContainsNode = (edge: GraphEdge, node: Node) => {
+  return edge.id.includes(node.id);
+};
+
+const edgeContainsType = (edge: GraphEdge, type: string) => {
+  return edge.sourceNode.type === type || edge.targetNode.type === type;
+};
+
+const compareTypes = (id: string, types?: string[]): boolean => {
+  const node = getNodeById(id);
   return types?.some((type) => type === node?.type) || false;
+};
+
+const hasNoParent = (connection: Connection): boolean => {
+  const source = getNodeById(connection.source);
+  const target = getNodeById(connection.target);
+
+  if (!(source && target)) {
+    return false;
+  }
+  const sourceParentType = source?.data.metaParentType;
+  const targetType = target.type;
+
+  const child = targetType === sourceParentType ? source : target;
+  return !edges.value.some(
+    (edge) => edgeContainsNode(edge, child) && edgeContainsType(edge, child.data.metaParentType)
+  );
 };
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -66,7 +94,9 @@ const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
 
 const onConnectEnd = (event: Event) => console.log('on connect end', event);
 
-const onConnect = (params: Connection) => addEdges([{ ...params, type: 'smoothstep' }]);
+const onConnect = (params: Connection) => {
+  addEdges([{ ...params, type: 'smoothstep' }]);
+};
 
 const onDragOver = (event: DragEvent) => {
   event.preventDefault();
@@ -94,8 +124,10 @@ const onDrop = (event: DragEvent) => {
       metaParentType,
       metaChildType,
     },
-    isValidSourcePos: (connection: Connection) => checkTypes(connection.source, [metaParentType, metaChildType]),
-    isValidTargetPos: (connection: Connection) => checkTypes(connection.target, [metaParentType, metaChildType]),
+    isValidSourcePos: (connection: Connection) =>
+      compareTypes(connection.source, [metaParentType, metaChildType]) && hasNoParent(connection),
+    isValidTargetPos: (connection: Connection) =>
+      compareTypes(connection.target, [metaParentType, metaChildType]) && hasNoParent(connection),
   } as Node;
   addNodes([newNode]);
 };
