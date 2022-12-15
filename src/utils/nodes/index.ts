@@ -1,8 +1,7 @@
-import { Connection, GraphEdge, Node, useVueFlow } from '@vue-flow/core';
+import { Connection, GraphEdge, GraphNode, Node } from '@vue-flow/core';
+import { Ref } from 'vue';
 
-const { edges, nodes } = useVueFlow();
-
-const getNodeById = (id: string): Node | undefined => {
+const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
   return nodes.value.filter((el) => {
     return el.id === id;
   })[0];
@@ -13,13 +12,17 @@ const edgeContainsNode = (edge: GraphEdge, node: Node) => {
 const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
   return edge.sourceNode.type === type || edge.targetNode.type === type;
 };
-export const compareNodeTypes = (id: string, types?: string[]): boolean => {
-  const node = getNodeById(id);
+export const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: string[]): boolean => {
+  const node = getNodeById(id, nodes);
   return types?.some((type) => type === node?.type) || false;
 };
-export const checkForMultipleParents = (connection: Connection): boolean => {
-  const source = getNodeById(connection.source);
-  const target = getNodeById(connection.target);
+export const checkForMultipleParents = (
+  connection: Connection,
+  nodes: Ref<GraphNode<any, any>[]>,
+  edges: Ref<GraphEdge<any, any>[]>
+): boolean => {
+  const source = getNodeById(connection.source, nodes);
+  const target = getNodeById(connection.target, nodes);
 
   if (!(source && target)) {
     return false;

@@ -8,7 +8,7 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
 import { nodeUtils } from './utils';
-import { CustomNode } from 'models/CustomNode';
+import { CustomNode } from './models/CustomNode';
 
 const initNodes = ref([
   {
@@ -51,7 +51,7 @@ const initNodes = ref([
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const { addEdges, addNodes, project } = useVueFlow();
+const { addEdges, addNodes, project, nodes, edges } = useVueFlow();
 const wrapper = ref();
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -92,11 +92,11 @@ const onDrop = (event: DragEvent) => {
       metaChildType,
     },
     isValidSourcePos: (connection: Connection) =>
-      nodeUtils.compareNodeTypes(connection.source, [metaParentType, metaChildType]) &&
-      nodeUtils.checkForMultipleParents(connection),
+      nodeUtils.compareNodeTypes(connection.source, nodes, [metaParentType, metaChildType]) &&
+      nodeUtils.checkForMultipleParents(connection, nodes, edges),
     isValidTargetPos: (connection: Connection) =>
-      nodeUtils.compareNodeTypes(connection.target, [metaParentType, metaChildType]) &&
-      nodeUtils.checkForMultipleParents(connection),
+      nodeUtils.compareNodeTypes(connection.target, nodes, [metaParentType, metaChildType]) &&
+      nodeUtils.checkForMultipleParents(connection, nodes, edges),
   } as CustomNode;
   addNodes([newNode]);
 };
