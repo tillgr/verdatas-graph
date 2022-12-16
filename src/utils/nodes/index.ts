@@ -12,11 +12,11 @@ const edgeContainsNode = (edge: GraphEdge, node: Node) => {
 const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
   return edge.sourceNode.type === type || edge.targetNode.type === type;
 };
-export const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: string[]): boolean => {
+const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: string[]): boolean => {
   const node = getNodeById(id, nodes);
   return types?.some((type) => type === node?.type) || false;
 };
-export const checkForMultipleParents = (
+const checkForMultipleParents = (
   connection: Connection,
   nodes: Ref<GraphNode<any, any>[]>,
   edges: Ref<GraphEdge<any, any>[]>
