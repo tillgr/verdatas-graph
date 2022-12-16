@@ -7,7 +7,7 @@ import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { ref } from 'vue';
-import { CustomNode } from './models/CustomNode';
+import { CustomNode } from 'models';
 import { nodeUtils } from './utils';
 
 const initNodes = ref([

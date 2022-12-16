@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { Node, useVueFlow } from '@vue-flow/core';
+import { ImportResult } from 'models';
 
 const props = defineProps(['nodes']);
 
-const { toObject } = useVueFlow();
+const { toObject, nodes, removeNodes, addNodes, addEdges } = useVueFlow();
 
 const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
@@ -27,14 +28,18 @@ const handleExport = () => {
 
 const handleImport = (e: Event) => {
   const file = (<HTMLInputElement>e?.target).files?.[0];
-  console.log();
-
   const fr = new FileReader();
+  let result: ImportResult;
 
   fr.onload = (e) => {
     if (typeof e.target?.result === 'string') {
-      const result = JSON.parse(e.target.result);
-      console.log(JSON.stringify(result, null, 2));
+      result = JSON.parse(e.target.result);
+      // console.log(JSON.stringify(result, null, 2));
+      removeNodes(nodes.value, true);
+      addNodes(result.nodes);
+      addEdges(result.edges);
+
+      //TODO extract method and add function for adding validation functions
     }
   };
   file && fr.readAsText(file);
