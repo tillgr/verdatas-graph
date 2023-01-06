@@ -39,7 +39,36 @@ const handleImport = (e: Event) => {
       addNodes(result.nodes);
       addEdges(result.edges);
 
-      //TODO extract method and add function for adding validation functions
+      // TODO extract method
+      // TODO add function for adding validation functions in post
+    }
+  };
+  file && fr.readAsText(file);
+};
+
+const handleIliasImport = (e: Event) => {
+  const file = (<HTMLInputElement>e?.target).files?.[0];
+  const fr = new FileReader();
+  let result: any; // TODO
+
+  fr.onload = (e) => {
+    if (typeof e.target?.result === 'string') {
+      result = JSON.parse(e.target.result);
+
+      const modules = result.modules.map((module: any) => {
+        const chapters = module.chapters.map((chapter: any) => {
+          const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
+            return { id: task.object_id };
+          });
+          return { id: chapter.object_id, interactiveTasks: interactiveTasks };
+        });
+        return { id: module.object_id, chapters: chapters };
+      });
+      const output = {
+        topic: { id: result.object_id, modules: modules },
+      };
+
+      console.log(output);
     }
   };
   file && fr.readAsText(file);
@@ -60,8 +89,12 @@ const handleImport = (e: Event) => {
     </div>
     <button class="export-button" @click="handleExport">Export graph</button>
     <div class="file-input">
-      <label for="file-input">Import JSON</label>
-      <input type="file" id="selectFiles" accept=".json" name="file-input" @change="(e) => handleImport(e)" />
+      <label for="graph-input">Import graph</label>
+      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => handleImport(e)" />
+    </div>
+    <div class="file-input">
+      <label for="ilias-input">Import from ilias</label>
+      <input type="file" id="selectFiles" accept=".json" name="ilias-input" @change="(e) => handleIliasImport(e)" />
     </div>
   </aside>
 </template>
