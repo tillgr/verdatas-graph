@@ -34,11 +34,16 @@ const parseJsonFile = async (file: File) => {
   });
 };
 
-const handleGraphImport = async (e: Event) => {
+const handleImport: any = async (e: Event) => {
+  // TODO
   const file = (<HTMLInputElement>e?.target).files?.[0];
   if (!file) return;
 
-  const result: any = await parseJsonFile(file); // TODO
+  return await parseJsonFile(file);
+};
+
+const handleGraphImport = async (e: Event) => {
+  const result = handleImport(e);
 
   removeNodes(nodes.value, true);
   addNodes(result.nodes);
@@ -46,10 +51,7 @@ const handleGraphImport = async (e: Event) => {
 };
 
 const handleIliasImport = async (e: Event) => {
-  const file = (<HTMLInputElement>e?.target).files?.[0];
-  if (!file) return;
-
-  const result: any = await parseJsonFile(file); // TODO
+  const result = handleImport(e);
 
   const modules = result?.modules.map((module: any) => {
     const chapters = module.chapters.map((chapter: any) => {
