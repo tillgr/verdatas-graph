@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { Node, useVueFlow } from '@vue-flow/core';
-import { ImportResult } from 'models';
 
 const props = defineProps(['nodes']);
 
@@ -26,52 +25,46 @@ const handleExport = () => {
   window.URL.revokeObjectURL(a.href);
 };
 
-const handleImport = (e: Event) => {
-  const file = (<HTMLInputElement>e?.target).files?.[0];
-  const fr = new FileReader();
-  let result: ImportResult;
-
-  fr.onload = (e) => {
-    if (typeof e.target?.result === 'string') {
-      result = JSON.parse(e.target.result);
-      // console.log(JSON.stringify(result, null, 2));
-      removeNodes(nodes.value, true);
-      addNodes(result.nodes);
-      addEdges(result.edges);
-
-      // TODO extract method
-      // TODO add function for adding validation functions in post
-    }
-  };
-  file && fr.readAsText(file);
+const parseJsonFile = async (file: File) => {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = (e: any) => resolve(JSON.parse(e?.target?.result));
+    fr.onerror = (error) => reject(error);
+    file && fr.readAsText(file);
+  });
 };
 
-const handleIliasImport = (e: Event) => {
+const handleGraphImport = async (e: Event) => {
   const file = (<HTMLInputElement>e?.target).files?.[0];
-  const fr = new FileReader();
-  let result: any; // TODO
+  if (!file) return;
 
-  fr.onload = (e) => {
-    if (typeof e.target?.result === 'string') {
-      result = JSON.parse(e.target.result);
+  const result: any = await parseJsonFile(file); // TODO
 
-      const modules = result.modules.map((module: any) => {
-        const chapters = module.chapters.map((chapter: any) => {
-          const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
-            return { id: task.object_id };
-          });
-          return { id: chapter.object_id, interactiveTasks: interactiveTasks };
-        });
-        return { id: module.object_id, chapters: chapters };
+  removeNodes(nodes.value, true);
+  addNodes(result.nodes);
+  addEdges(result.edges);
+};
+
+const handleIliasImport = async (e: Event) => {
+  const file = (<HTMLInputElement>e?.target).files?.[0];
+  if (!file) return;
+
+  const result: any = await parseJsonFile(file); // TODO
+
+  const modules = result?.modules.map((module: any) => {
+    const chapters = module.chapters.map((chapter: any) => {
+      const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
+        return { id: task.object_id };
       });
-      const output = {
-        topic: { id: result.object_id, modules: modules },
-      };
-
-      console.log(output);
-    }
+      return { id: chapter.object_id, interactiveTasks: interactiveTasks };
+    });
+    return { id: module.object_id, chapters: chapters };
+  });
+  const output = {
+    topic: { id: result.object_id, modules: modules },
   };
-  file && fr.readAsText(file);
+
+  console.log(output);
 };
 </script>
 
@@ -90,7 +83,7 @@ const handleIliasImport = (e: Event) => {
     <button class="export-button" @click="handleExport">Export graph</button>
     <div class="file-input">
       <label for="graph-input">Import graph</label>
-      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => handleImport(e)" />
+      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => handleGraphImport(e)" />
     </div>
     <div class="file-input">
       <label for="ilias-input">Import from ilias</label>
