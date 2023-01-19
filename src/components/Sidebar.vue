@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Node, useVueFlow } from '@vue-flow/core';
-import * as d3 from 'd3';
+import { hierarchy, tree } from 'd3';
 
 const props = defineProps(['nodes']);
 
@@ -73,7 +73,8 @@ const importIlias = async (e: Event) => {
 
   const filtered = filterJsonFile(file);
 
-  const root = {
+  //TODO working on it
+  const data = {
     name: 'Eve',
     children: [
       {
@@ -107,9 +108,11 @@ const importIlias = async (e: Event) => {
     ],
   };
 
-  const tree = d3.tree()(d3.hierarchy(root));
+  const root = hierarchy(data);
+  const _tree = tree().nodeSize(['10', '10'])(root);
 
-  console.log(tree);
+  console.log(_tree);
+  console.log(root.links());
 
   addNodes([{ id: filtered.topic.id, position: { x: 1, y: 1 }, label: filtered.topic.id }]);
 };
