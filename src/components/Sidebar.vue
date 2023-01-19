@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Node, useVueFlow } from '@vue-flow/core';
+import * as d3 from 'd3';
 
 const props = defineProps(['nodes']);
 
@@ -35,25 +36,16 @@ const parseJsonFile = async (file: File) => {
 };
 
 const handleImport: any = async (e: Event) => {
-  // TODO
+  // TODO fix type
   const file = (<HTMLInputElement>e?.target).files?.[0];
   if (!file) return;
 
   return await parseJsonFile(file);
 };
 
-const handleGraphImport = async (e: Event) => {
-  const result = handleImport(e);
-
-  removeNodes(nodes.value, true);
-  addNodes(result.nodes);
-  addEdges(result.edges);
-};
-
-const handleIliasImport = async (e: Event) => {
-  const result = handleImport(e);
-
-  const modules = result?.modules.map((module: any) => {
+const filterJsonFile = (file: any) => {
+  //TODO fix type
+  const modules = file?.modules.map((module: any) => {
     const chapters = module.chapters.map((chapter: any) => {
       const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
         return { id: task.object_id };
@@ -62,11 +54,64 @@ const handleIliasImport = async (e: Event) => {
     });
     return { id: module.object_id, chapters: chapters };
   });
-  const output = {
-    topic: { id: result.object_id, modules: modules },
+
+  return {
+    topic: { id: file.object_id, modules: modules },
+  };
+};
+
+const importGraph = async (e: Event) => {
+  const file = await handleImport(e);
+
+  removeNodes(nodes.value, true);
+  addNodes(file.nodes);
+  addEdges(file.edges);
+};
+
+const importIlias = async (e: Event) => {
+  const file = await handleImport(e);
+
+  const filtered = filterJsonFile(file);
+
+  const root = {
+    name: 'Eve',
+    children: [
+      {
+        name: 'Cain',
+      },
+      {
+        name: 'Seth',
+        children: [
+          {
+            name: 'Enos',
+          },
+          {
+            name: 'Noam',
+          },
+        ],
+      },
+      {
+        name: 'Abel',
+      },
+      {
+        name: 'Awan',
+        children: [
+          {
+            name: 'Enoch',
+          },
+        ],
+      },
+      {
+        name: 'Azura',
+      },
+    ],
   };
 
-  console.log(output);
+  const tree = d3.tree()(d3.hierarchy(root));
+
+  console.log(tree);
+
+  addNodes([{ id: filtered.topic.id, position: { x: 1, y: 1 }, label: filtered.topic.id }]);
 };
 </script>
 
@@ -85,11 +130,11 @@ const handleIliasImport = async (e: Event) => {
     <button class="export-button" @click="handleExport">Export graph</button>
     <div class="file-input">
       <label for="graph-input">Import graph</label>
-      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => handleGraphImport(e)" />
+      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => importGraph(e)" />
     </div>
     <div class="file-input">
       <label for="ilias-input">Import from ilias</label>
-      <input type="file" id="selectFiles" accept=".json" name="ilias-input" @change="(e) => handleIliasImport(e)" />
+      <input type="file" id="selectFiles" accept=".json" name="ilias-input" @change="(e) => importIlias(e)" />
     </div>
   </aside>
 </template>
