@@ -50,7 +50,7 @@ const initNodes = ref([
 ]);
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getNodeId = () => `dragged_${id++}`;
 const { addEdges, addNodes, project, nodes, edges } = useVueFlow();
 const wrapper = ref();
 
@@ -83,10 +83,10 @@ const onDrop = (event: DragEvent) => {
     y: event.clientY - flowbounds.top,
   });
   const newNode = {
-    id: getId(),
+    id: getNodeId(),
     type,
     position,
-    label: `${type} node`,
+    label: `${type}_node`,
     data: {
       metaParentType,
       metaChildType,

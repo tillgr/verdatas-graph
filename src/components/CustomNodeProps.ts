@@ -15,6 +15,10 @@ export const customNodeProps = {
     type: String,
     required: true,
   },
+  label: {
+    type: String,
+    required: true,
+  },
   data: {
     metaParentType: {
       type: String,

@@ -44,19 +44,21 @@ const handleImport: any = async (e: Event) => {
 };
 
 const filterJsonFile = (file: any) => {
-  //TODO fix type
+  //TODO fix type (module, chapter, task)
   const modules = file?.modules.map((module: any) => {
     const chapters = module.chapters.map((chapter: any) => {
       const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
-        return { id: task.object_id };
+        return { id: task.object_id, type: 'interactiveTask' };
       });
-      return { id: chapter.object_id, interactiveTasks: interactiveTasks };
+      return { id: chapter.object_id, type: 'chapter', children: interactiveTasks };
     });
-    return { id: module.object_id, chapters: chapters };
+    return { id: module.object_id, type: 'module', children: chapters };
   });
 
   return {
-    topic: { id: file.object_id, modules: modules },
+    id: file.object_id,
+    type: 'topic',
+    children: modules,
   };
 };
 
@@ -70,51 +72,38 @@ const importGraph = async (e: Event) => {
 
 const importIlias = async (e: Event) => {
   const file = await handleImport(e);
-
   const filtered = filterJsonFile(file);
 
-  //TODO working on it
-  const data = {
-    name: 'Eve',
-    children: [
-      {
-        name: 'Cain',
-      },
-      {
-        name: 'Seth',
-        children: [
-          {
-            name: 'Enos',
-          },
-          {
-            name: 'Noam',
-          },
-        ],
-      },
-      {
-        name: 'Abel',
-      },
-      {
-        name: 'Awan',
-        children: [
-          {
-            name: 'Enoch',
-          },
-        ],
-      },
-      {
-        name: 'Azura',
-      },
-    ],
-  };
+  const root = hierarchy(filtered);
+  const _tree = tree().nodeSize([180, 100])(root); //TODO save somewhere
 
-  const root = hierarchy(data);
-  const _tree = tree().nodeSize(['10', '10'])(root);
+  const nodes: any[] = []; //TODO fix type
+  _tree.each((node: any) => {
+    const type = node.data.type.toLowerCase();
 
-  console.log(_tree);
-  console.log(root.links());
+    nodes.push({
+      id: node.data.id,
+      type,
+      label: `${type}_node`,
+      position: { x: node.x, y: node.y }, //TODO Add validation back in, via blueprint objects in utils
+    });
+  });
 
-  addNodes([{ id: filtered.topic.id, position: { x: 1, y: 1 }, label: filtered.topic.id }]);
+  const edges = _tree.links().map((node: any) => {
+    //TODO fix type
+    const source: string = node.source.data.id;
+    const target: string = node.target.data.id;
+    const id = source + target;
+
+    return {
+      id,
+      source,
+      target,
+    };
+  });
+
+  addNodes(nodes);
+  addEdges(edges);
 };
 </script>
 
