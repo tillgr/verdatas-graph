@@ -6,7 +6,7 @@ import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { CustomNode } from 'models';
 import { nodeUtils } from './utils';
 
@@ -51,7 +51,7 @@ const initNodes = ref([
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
-const { addEdges, addNodes, project, nodes, edges } = useVueFlow();
+const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow();
 const wrapper = ref();
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -100,6 +100,16 @@ const onDrop = (event: DragEvent) => {
   } as CustomNode;
   addNodes([newNode]);
 };
+
+const opts = reactive({
+  bg: '#eeeeee',
+  label: 'dragged_0',
+});
+const updateNode = () => {
+  const node = findNode('dragged_0')!;
+  node.label = opts.label;
+  node.style = { backgroundColor: opts.bg };
+};
 </script>
 
 <template>
@@ -115,6 +125,13 @@ const onDrop = (event: DragEvent) => {
       @connect-start="onConnectStart"
       @connect-end="onConnectEnd"
     >
+      <div class="updatenode__controls">
+        <label>label:</label>
+        <input v-model="opts.label" @input="updateNode" />
+
+        <label class="updatenode__bglabel">background:</label>
+        <input v-model="opts.bg" type="color" @input="updateNode" />
+      </div>
       <template #node-module="props">
         <Module v-bind="props" />
       </template>
@@ -133,3 +150,7 @@ const onDrop = (event: DragEvent) => {
     </VueFlow>
   </div>
 </template>
+
+<style>
+@import 'updatenode.css';
+</style>
