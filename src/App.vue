@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -72,6 +72,11 @@ const onDragOver = (event: DragEvent) => {
   }
 };
 
+const onNodeClick = (event: NodeMouseEvent) => {
+  currentNode.id = event.node.id;
+  opts.label = event.node.label!.toString(); //TODO fix
+};
+
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type');
   const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType') || '';
@@ -103,10 +108,13 @@ const onDrop = (event: DragEvent) => {
 
 const opts = reactive({
   bg: '#eeeeee',
-  label: 'dragged_0',
+  label: '',
+});
+const currentNode = reactive({
+  id: '',
 });
 const updateNode = () => {
-  const node = findNode('dragged_0')!;
+  const node = findNode(currentNode.id)!;
   node.label = opts.label;
   node.style = { backgroundColor: opts.bg };
 };
@@ -124,6 +132,7 @@ const updateNode = () => {
       @pane-ready="onLoad"
       @connect-start="onConnectStart"
       @connect-end="onConnectEnd"
+      @node-click="onNodeClick"
     >
       <div class="updatenode__controls">
         <label>label:</label>
