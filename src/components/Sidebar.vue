@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { Edge, Node, useVueFlow } from '@vue-flow/core';
-import { hierarchy, HierarchyPointLink, tree } from 'd3';
+import { Node, useVueFlow } from '@vue-flow/core';
 import { NodeType, VueFlowGraph } from 'models';
-import { graphUtils, ImportSpacing } from 'utils';
-import { Chapter, IliasGraph, IliasNodeTypes, InteractiveTask, Module } from 'models/IliasGraph';
+import { graphUtils, importUtils } from 'utils';
+import { IliasGraph } from 'models/IliasGraph';
 
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
@@ -25,82 +24,32 @@ const handleExport = () => {
   window.URL.revokeObjectURL(a.href);
 };
 
-const parseJsonFile = async (file: File) => {
-  return new Promise((resolve, reject) => {
-    const fr = new FileReader();
-    fr.onload = (e: any) => resolve(JSON.parse(e?.target?.result));
-    fr.onerror = (error) => reject(error);
-    file && fr.readAsText(file);
-  });
-};
-
 const handleImport = async (e: Event) => {
   const file = (<HTMLInputElement>e?.target).files?.[0];
   if (!file) return;
 
-  return await parseJsonFile(file);
-};
-
-const filterJsonFile = (file: IliasGraph) => {
-  if (!file) return;
-  const modules = file[IliasNodeTypes.Modules]?.map((module: Module) => {
-    const chapters = module[IliasNodeTypes.Chapters]?.map((chapter: Chapter) => {
-      const interactiveTasks = chapter[IliasNodeTypes.InteractiveTasks]?.map((task: InteractiveTask) => {
-        return { id: task.object_id, type: NodeType.InteractiveTask };
-      });
-      return { id: chapter.object_id, type: NodeType.Chapter, children: interactiveTasks };
-    });
-    return { id: module.object_id, type: NodeType.Module, children: chapters };
-  });
-
-  return {
-    id: file.object_id,
-    type: 'topic',
-    children: modules,
-  };
+  return await importUtils.parseJsonFile(file);
 };
 
 const importGraph = async (e: Event) => {
   const file = <VueFlowGraph | undefined>await handleImport(e);
-  if (file) {
-    removeNodes(nodes.value, true);
-    addNodes(file.nodes);
-    addEdges(file.edges);
-  }
+  if (!file) return;
+
+  removeNodes(nodes.value, true);
+  addNodes(file.nodes);
+  addEdges(file.edges);
 };
 
 const importIlias = async (e: Event) => {
   const file = <IliasGraph | undefined>await handleImport(e);
+  if (!file) return;
 
-  if (file) {
-    const filtered = filterJsonFile(file);
-    removeNodes(nodes.value, true);
+  const filtered = importUtils.filterJsonFile(file);
+  const { nodes: newNodes, edges: newEdges } = graphUtils.calculateTreeLayout(filtered, nodes, edges);
 
-    const root = hierarchy(filtered);
-    const _tree = tree().nodeSize(ImportSpacing)(root);
-
-    const _nodes: Node[] = [];
-    let _edges: Edge[] = [];
-
-    try {
-      _tree.each((node: any) => {
-        const type: NodeType = node.data.type.toLowerCase();
-        const position = { x: node.x, y: node.y };
-
-        const newNode = graphUtils.createNode(node.data.id, type, position, nodes, edges);
-        _nodes.push(newNode);
-      });
-
-      _edges = _tree.links().map((node: HierarchyPointLink<any>) => {
-        return graphUtils.createEdge(node.source.data.id, node.target.data.id);
-      });
-    } catch (e) {
-      console.error(e);
-    }
-
-    addNodes(_nodes);
-    addEdges(_edges);
-  }
+  removeNodes(nodes.value, true);
+  addNodes(newNodes);
+  addEdges(newEdges);
 };
 </script>
 
