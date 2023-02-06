@@ -1,28 +1,11 @@
-export const customNodeProps = {
-  isValidTargetPos: {
-    type: Function,
-    required: true,
-  },
-  isValidSourcePos: {
-    type: Function,
-    required: true,
-  },
-  id: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  label: {
-    type: String,
-    required: true,
-  },
+export type customNodeProps = {
+  isValidTargetPos: () => boolean;
+  isValidSourcePos: () => boolean;
+  id: string;
+  type: string; //TODO Enum
+  label: string;
   data: {
-    metaParentType: {
-      type: String,
-      required: true,
-    },
-  },
+    metaParentType: string; //TODO Enum
+    metaChildType: string;
+  };
 };

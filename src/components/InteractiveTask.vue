@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { Handle, Position } from '@vue-flow/core';
-import { customNodeProps } from './CustomNodeProps.ts';
+import { customNodeProps } from './CustomNodeProps';
 
-const props = defineProps(customNodeProps);
+const props = defineProps<customNodeProps>();
 </script>
 
 <script>
