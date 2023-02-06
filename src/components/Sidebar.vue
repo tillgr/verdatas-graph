@@ -5,15 +5,11 @@ import { NodeType, VueFlowGraph } from 'models';
 import { ImportSpacing, nodeUtils } from 'utils';
 import { Chapter, IliasGraph, IliasNodeTypes, InteractiveTask, Module } from 'models/IliasGraph';
 
-const props = defineProps(['nodes']);
-
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
 const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('application/vueflow/type', node.type || '');
-    event.dataTransfer.setData('application/vueflow/metaParentType', node.data.metaParentType);
-    event.dataTransfer.setData('application/vueflow/metaChildType', node.data.metaChildType);
     event.dataTransfer.effectAllowed = 'move';
   }
 };
@@ -120,13 +116,13 @@ const importIlias = async (e: Event) => {
   <aside>
     <div class="description">You can drag these nodes to the pane on the left.</div>
     <div
-      v-for="node in props.nodes"
+      v-for="type of NodeType"
       class="node-templates"
-      :class="'vue-flow__node-' + node.type"
+      :class="'vue-flow__node-' + type"
       :draggable="true"
       @dragstart="(event: DragEvent) => onDragStart(event, node)"
     >
-      {{ node.type }}
+      {{ type }}
     </div>
     <button class="export-button" @click="handleExport">Export graph</button>
     <div class="file-input">

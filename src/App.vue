@@ -10,46 +10,6 @@ import { reactive, ref } from 'vue';
 import { NodeType } from 'models';
 import { nodeUtils } from 'utils';
 
-const initNodes = ref([
-  {
-    //TODO remove unnecessary information
-    id: 'topic',
-    type: 'topic',
-    position: { x: 250, y: 0 },
-    data: {
-      metaParentType: '',
-      metaChildType: 'module',
-    },
-  },
-  {
-    id: 'module',
-    type: 'module',
-    position: { x: 250, y: 150 },
-    data: {
-      metaParentType: 'topic',
-      metaChildType: 'chapter',
-    },
-  },
-  {
-    id: 'chapter',
-    type: 'chapter',
-    position: { x: 250, y: 300 },
-    data: {
-      metaParentType: 'module',
-      metaChildType: 'interactivetask',
-    },
-  },
-  {
-    id: 'interactive_task',
-    type: 'interactivetask',
-    position: { x: 250, y: 450 },
-    data: {
-      metaParentType: 'chapter',
-      metaChildType: '',
-    },
-  },
-]);
-
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
 const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow();
@@ -106,7 +66,7 @@ const updateNode = () => {
 
 <template>
   <div class="dndflow" @drop="onDrop">
-    <Sidebar :nodes="initNodes" />
+    <Sidebar />
     <VueFlow
       fit-view-on-init
       class="validationflow"
