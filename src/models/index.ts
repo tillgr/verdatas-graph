@@ -1,2 +1,2 @@
 export * from './CustomNode';
-export * from './ImportResult';
+export * from 'models/VueFlowGraph';

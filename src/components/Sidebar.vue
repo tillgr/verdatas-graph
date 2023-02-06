@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-import { Node, useVueFlow } from '@vue-flow/core';
-import { hierarchy, tree } from 'd3';
+import { Edge, Node, useVueFlow } from '@vue-flow/core';
+import { hierarchy, HierarchyPointLink, tree } from 'd3';
+import { NodeModel, NodeType, VueFlowGraph } from 'models';
+import { ImportSpacing } from 'utils';
+import { Chapter, IliasGraph, IliasNodeTypes, InteractiveTask, Module } from 'models/IliasGraph';
 
 const props = defineProps(['nodes']);
 
@@ -35,24 +38,23 @@ const parseJsonFile = async (file: File) => {
   });
 };
 
-const handleImport: any = async (e: Event) => {
-  // TODO fix type
+const handleImport = async (e: Event) => {
   const file = (<HTMLInputElement>e?.target).files?.[0];
   if (!file) return;
 
   return await parseJsonFile(file);
 };
 
-const filterJsonFile = (file: any) => {
-  //TODO fix type (module, chapter, task)
-  const modules = file?.modules.map((module: any) => {
-    const chapters = module.chapters.map((chapter: any) => {
-      const interactiveTasks = chapter.interactiveTasks?.map((task: any) => {
-        return { id: task.object_id, type: 'interactiveTask' };
+const filterJsonFile = (file: IliasGraph) => {
+  if (!file) return;
+  const modules = file[IliasNodeTypes.Modules]?.map((module: Module) => {
+    const chapters = module[IliasNodeTypes.Chapters]?.map((chapter: Chapter) => {
+      const interactiveTasks = chapter[IliasNodeTypes.InteractiveTasks]?.map((task: InteractiveTask) => {
+        return { id: task.object_id, type: NodeType.InteractiveTask };
       });
-      return { id: chapter.object_id, type: 'chapter', children: interactiveTasks };
+      return { id: chapter.object_id, type: NodeType.Chapter, children: interactiveTasks };
     });
-    return { id: module.object_id, type: 'module', children: chapters };
+    return { id: module.object_id, type: NodeType.Module, children: chapters };
   });
 
   return {
@@ -63,47 +65,65 @@ const filterJsonFile = (file: any) => {
 };
 
 const importGraph = async (e: Event) => {
-  const file = await handleImport(e);
-
-  removeNodes(nodes.value, true);
-  addNodes(file.nodes);
-  addEdges(file.edges);
+  const file = <VueFlowGraph | undefined>await handleImport(e);
+  if (file) {
+    removeNodes(nodes.value, true);
+    addNodes(file.nodes);
+    addEdges(file.edges);
+  }
 };
 
 const importIlias = async (e: Event) => {
-  const file = await handleImport(e);
-  const filtered = filterJsonFile(file);
+  const file = <IliasGraph | undefined>await handleImport(e);
 
-  const root = hierarchy(filtered);
-  const _tree = tree().nodeSize([180, 100])(root); //TODO save somewhere
+  if (file) {
+    const filtered = filterJsonFile(file);
+    removeNodes(nodes.value, true);
 
-  const nodes: any[] = []; //TODO fix type
-  _tree.each((node: any) => {
-    const type = node.data.type.toLowerCase();
+    const root = hierarchy(filtered);
+    const _tree = tree().nodeSize(ImportSpacing)(root);
 
-    nodes.push({
-      id: node.data.id,
-      type,
-      label: `${type}_node`,
-      position: { x: node.x, y: node.y }, //TODO Add validation back in, via blueprint objects in utils
-    });
-  });
+    const _nodes: Node[] = [];
+    let _edges: Edge[] = [];
 
-  const edges = _tree.links().map((node: any) => {
-    //TODO fix type
-    const source: string = node.source.data.id;
-    const target: string = node.target.data.id;
-    const id = source + target;
+    try {
+      _tree.each((node: any) => {
+        const type: NodeType = node.data.type.toLowerCase();
+        const metaParentType = NodeModel[type].metaParentType;
+        const metaChildType = NodeModel[type].metaChildType; //TODO extract method for creating nodes
 
-    return {
-      id,
-      source,
-      target,
-    };
-  });
+        const newNode: Node = {
+          id: node.data.id,
+          type,
+          label: `${type}_node`,
+          position: { x: node.x, y: node.y }, //TODO Add validation back in, via blueprint objects in utils
+          data: {
+            metaParentType,
+            metaChildType,
+          },
+        };
 
-  addNodes(nodes);
-  addEdges(edges);
+        _nodes.push(newNode);
+      });
+
+      _edges = _tree.links().map((node: HierarchyPointLink<any>) => {
+        const source: string = node.source.data.id;
+        const target: string = node.target.data.id;
+        const id = source + target;
+
+        return {
+          id,
+          source,
+          target,
+        };
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    addNodes(_nodes);
+    addEdges(_edges);
+  }
 };
 </script>
 

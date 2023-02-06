@@ -1,6 +1,6 @@
 import { Edge, Node } from '@vue-flow/core';
 
-export type ImportResult = {
+export type VueFlowGraph = {
   nodes: Node[];
   edges: Edge[];
   position: [];
