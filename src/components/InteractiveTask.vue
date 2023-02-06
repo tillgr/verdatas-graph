@@ -12,7 +12,6 @@ interface InteractiveTaskProps {
 }
 
 const props = defineProps<InteractiveTaskProps>();
-console.log(props);
 </script>
 
 <script lang="ts">

@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { Connection, Node, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import {
+  Connection,
+  GraphEdge,
+  GraphNode,
+  Node,
+  NodeMouseEvent,
+  useVueFlow,
+  VueFlow,
+  VueFlowStore,
+} from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
-import { reactive, ref } from 'vue';
-import { NodeModel, NodeType } from 'models';
+import { reactive, Ref, ref } from 'vue';
+import { NodeData, NodeModel, NodeType } from 'models';
 import { nodeUtils } from 'utils';
 
 const initNodes = ref([
@@ -81,31 +90,44 @@ const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type') as NodeType;
   const metaParentType = NodeModel[type].metaParentType;
   const metaChildType = NodeModel[type].metaChildType;
+  const data = { metaParentType: NodeModel[type].metaParentType, metaChildType: NodeModel[type].metaChildType };
 
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
     y: event.clientY - flowbounds.top,
   });
+
+  const getValidationFunctions = (
+    nodeData: NodeData,
+    nodesRef: Ref<GraphNode<any, any>[]>,
+    edgesRef: Ref<GraphEdge<any, any>[]>
+  ) => {
+    const { metaParentType, metaChildType } = nodeData;
+
+    return {
+      isValidSourcePos: (connection: Connection) =>
+        nodeUtils.compareNodeTypes(connection.source, nodesRef, [metaParentType, metaChildType]) &&
+        nodeUtils.checkForMultipleParents(connection, nodesRef, edgesRef),
+      isValidTargetPos: (connection: Connection) =>
+        nodeUtils.compareNodeTypes(connection.target, nodesRef, [metaParentType, metaChildType]) &&
+        nodeUtils.checkForMultipleParents(connection, nodesRef, edgesRef),
+    };
+  };
+
+  const validationFunctions = getValidationFunctions(data, nodes, edges);
+
+  console.log(validationFunctions);
+
   const newNode: Node = {
     id: getNodeId(),
     type,
     position,
     label: `${type}_node`,
-    data: {
-      metaParentType,
-      metaChildType,
-    },
-    isValidSourcePos: (connection: Connection) =>
-      nodeUtils.compareNodeTypes(connection.source, nodes, [metaParentType, metaChildType]) &&
-      nodeUtils.checkForMultipleParents(connection, nodes, edges),
-    isValidTargetPos: (connection: Connection) =>
-      nodeUtils.compareNodeTypes(connection.target, nodes, [metaParentType, metaChildType]) &&
-      nodeUtils.checkForMultipleParents(connection, nodes, edges),
+    data,
+    ...validationFunctions,
   };
   addNodes([newNode]);
-
-  console.log(nodes.value);
 };
 
 const opts = reactive({
