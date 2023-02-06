@@ -7,7 +7,7 @@ import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { reactive, ref } from 'vue';
-import { CustomNode } from 'models';
+import { CustomNode, NodeType } from 'models';
 import { nodeUtils } from 'utils';
 
 const initNodes = ref([
@@ -78,16 +78,16 @@ const onNodeClick = (event: NodeMouseEvent) => {
 };
 
 const onDrop = (event: DragEvent) => {
-  const type = event.dataTransfer?.getData('application/vueflow/type');
-  const metaParentType = event.dataTransfer?.getData('application/vueflow/metaParentType') || '';
-  const metaChildType = event.dataTransfer?.getData('application/vueflow/metaChildType') || '';
+  const type = event.dataTransfer?.getData('application/vueflow/type') as NodeType;
+  const metaParentType = (event.dataTransfer?.getData('application/vueflow/metaParentType') || '') as NodeType;
+  const metaChildType = (event.dataTransfer?.getData('application/vueflow/metaChildType') || '') as NodeType;
 
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
     y: event.clientY - flowbounds.top,
   });
-  const newNode = {
+  const newNode: CustomNode = {
     id: getNodeId(),
     type,
     position,
@@ -102,7 +102,7 @@ const onDrop = (event: DragEvent) => {
     isValidTargetPos: (connection: Connection) =>
       nodeUtils.compareNodeTypes(connection.target, nodes, [metaParentType, metaChildType]) &&
       nodeUtils.checkForMultipleParents(connection, nodes, edges),
-  } as CustomNode;
+  };
   addNodes([newNode]);
 };
 

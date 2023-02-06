@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Handle, Position } from '@vue-flow/core';
-import { customNodeProps } from './CustomNodeProps';
+import { CustomNode } from 'models';
 
-const props = defineProps<customNodeProps>();
+interface ChapterProps extends CustomNode {} //https://github.com/vuejs/core/issues/4294
+
+const props = defineProps<ChapterProps>();
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Chapter',
   inheritAttrs: false,

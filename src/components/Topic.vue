@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Handle, Position } from '@vue-flow/core';
-import { customNodeProps } from './CustomNodeProps';
+import { CustomNode } from 'models';
 
-const props = defineProps<customNodeProps>();
+interface TopicProps extends CustomNode {}
+
+const props = defineProps<TopicProps>();
 </script>
 
-<script>
+<script lang="ts">
 export default {
   name: 'Topic',
   inheritAttrs: false,
