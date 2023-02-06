@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { Handle, Position } from '@vue-flow/core';
-import { CustomNode } from 'models';
+import { Connection, Handle, Position } from '@vue-flow/core';
+import { NodeData, NodeType } from 'models';
 
-interface InteractiveTaskProps extends CustomNode {}
+interface InteractiveTaskProps {
+  isValidTargetPos: (connection: Connection) => boolean;
+  isValidSourcePos: (connection: Connection) => boolean;
+  id: string;
+  type: NodeType;
+  label: string;
+  data: NodeData;
+}
 
 const props = defineProps<InteractiveTaskProps>();
 </script>
@@ -16,7 +23,7 @@ export default {
 
 <template>
   <Handle type="target" :position="Position.Top" :is-valid-connection="props.isValidSourcePos" />
-  <div>ID: {{ props.label }}</div>
+  <div>ID: {{ props.id }}</div>
   <div>Type: {{ props.type }}</div>
   <div>Parent: {{ props.data.metaParentType }}</div>
 </template>

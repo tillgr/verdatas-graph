@@ -1,8 +1,18 @@
 <script setup lang="ts">
-import { Handle, Position } from '@vue-flow/core';
-import { CustomNode } from 'models';
+import { Connection, Handle, Position } from '@vue-flow/core';
+import { NodeData, NodeType } from 'models';
 
-interface ChapterProps extends CustomNode {} //https://github.com/vuejs/core/issues/4294
+interface ChapterProps {
+  //Prop interface cannot be extended in vue 3
+  //https://vuejs.org/guide/typescript/composition-api.html#typing-component-props
+  //https://github.com/vuejs/core/issues/4294
+  isValidTargetPos: (connection: Connection) => boolean;
+  isValidSourcePos: (connection: Connection) => boolean;
+  id: string;
+  type: NodeType;
+  label: string;
+  data: NodeData;
+}
 
 const props = defineProps<ChapterProps>();
 </script>

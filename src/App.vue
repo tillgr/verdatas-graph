@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Connection, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import { Connection, Node, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
 import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
@@ -7,7 +7,7 @@ import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { reactive, ref } from 'vue';
-import { CustomNode, NodeType } from 'models';
+import { NodeModel, NodeType } from 'models';
 import { nodeUtils } from 'utils';
 
 const initNodes = ref([
@@ -79,15 +79,15 @@ const onNodeClick = (event: NodeMouseEvent) => {
 
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type') as NodeType;
-  const metaParentType = (event.dataTransfer?.getData('application/vueflow/metaParentType') || '') as NodeType;
-  const metaChildType = (event.dataTransfer?.getData('application/vueflow/metaChildType') || '') as NodeType;
+  const metaParentType = NodeModel[type].metaParentType;
+  const metaChildType = NodeModel[type].metaChildType;
 
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
     y: event.clientY - flowbounds.top,
   });
-  const newNode: CustomNode = {
+  const newNode: Node = {
     id: getNodeId(),
     type,
     position,
@@ -104,6 +104,8 @@ const onDrop = (event: DragEvent) => {
       nodeUtils.checkForMultipleParents(connection, nodes, edges),
   };
   addNodes([newNode]);
+
+  console.log(nodes.value);
 };
 
 const opts = reactive({

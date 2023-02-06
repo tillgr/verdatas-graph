@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { Handle, Position } from '@vue-flow/core';
-import { CustomNode } from 'models';
+import { Connection, Handle, Position } from '@vue-flow/core';
+import { NodeData, NodeType } from 'models';
 
-interface TopicProps extends CustomNode {}
+interface TopicProps {
+  isValidTargetPos: (connection: Connection) => boolean;
+  isValidSourcePos: (connection: Connection) => boolean;
+  id: string;
+  type: NodeType;
+  label: string;
+  data: NodeData;
+}
 
 const props = defineProps<TopicProps>();
 </script>

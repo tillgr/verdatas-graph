@@ -1,5 +1,6 @@
 import { Connection, GraphEdge, GraphNode, Node } from '@vue-flow/core';
 import { Ref } from 'vue';
+import { NodeType } from 'models';
 
 const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
   return nodes.value.filter((el) => {
@@ -12,7 +13,7 @@ const edgeContainsNode = (edge: GraphEdge, node: Node) => {
 const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
   return edge.sourceNode.type === type || edge.targetNode.type === type;
 };
-const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: string[]): boolean => {
+const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: (NodeType | undefined)[]): boolean => {
   const node = getNodeById(id, nodes);
   return types?.some((type) => type === node?.type) || false;
 };

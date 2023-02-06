@@ -1,15 +1,3 @@
-import { Connection, Node } from '@vue-flow/core';
-
-export type CustomNode = Node &
-  Required<{
-    isValidTargetPos: (connection: Connection) => boolean;
-    isValidSourcePos: (connection: Connection) => boolean;
-    id: string;
-    type: NodeType;
-    label: string;
-    data: NodeData;
-  }>;
-
 export enum NodeType {
   Topic = 'topic',
   Module = 'module',
