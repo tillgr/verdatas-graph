@@ -1,6 +1,6 @@
 import { Connection, GraphEdge, GraphNode, Node } from '@vue-flow/core';
 import { Ref } from 'vue';
-import { NodeType } from 'models';
+import { NodeData, NodeModel, NodeType } from 'models';
 
 const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
   return nodes.value.filter((el) => {
@@ -37,10 +37,49 @@ const checkForMultipleParents = (
   );
 };
 
+const getValidationFunctions = (
+  nodeData: NodeData,
+  nodesRef: Ref<GraphNode<any, any>[]>,
+  edgesRef: Ref<GraphEdge<any, any>[]>
+) => {
+  const { metaParentType, metaChildType } = nodeData;
+
+  return {
+    isValidSourcePos: (connection: Connection) =>
+      compareNodeTypes(connection.source, nodesRef, [metaParentType, metaChildType]) &&
+      checkForMultipleParents(connection, nodesRef, edgesRef),
+    isValidTargetPos: (connection: Connection) =>
+      compareNodeTypes(connection.target, nodesRef, [metaParentType, metaChildType]) &&
+      checkForMultipleParents(connection, nodesRef, edgesRef),
+  };
+};
+
+const createNode = (
+  id: string,
+  type: NodeType,
+  position: { x: number; y: number },
+  nodesRef: Ref<GraphNode<any, any>[]>,
+  edgesRef: Ref<GraphEdge<any, any>[]>
+): Node => {
+  const data = { metaParentType: NodeModel[type].metaParentType, metaChildType: NodeModel[type].metaChildType };
+  const validationFunctions = nodeUtils.getValidationFunctions(data, nodesRef, edgesRef);
+
+  return {
+    id,
+    type,
+    label: `${type}_node`,
+    position,
+    data,
+    ...validationFunctions,
+  };
+};
+
 export const nodeUtils = {
   getNodeById,
   edgeContainsNode,
   edgeContainsNodeType,
   compareNodeTypes,
   checkForMultipleParents,
+  getValidationFunctions,
+  createNode,
 };

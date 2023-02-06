@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { Edge, Node, useVueFlow } from '@vue-flow/core';
 import { hierarchy, HierarchyPointLink, tree } from 'd3';
-import { NodeModel, NodeType, VueFlowGraph } from 'models';
-import { ImportSpacing } from 'utils';
+import { NodeType, VueFlowGraph } from 'models';
+import { ImportSpacing, nodeUtils } from 'utils';
 import { Chapter, IliasGraph, IliasNodeTypes, InteractiveTask, Module } from 'models/IliasGraph';
 
 const props = defineProps(['nodes']);
 
-const { toObject, nodes, removeNodes, addNodes, addEdges } = useVueFlow();
+const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
 const onDragStart = (event: DragEvent, node: Node) => {
   if (event.dataTransfer) {
@@ -89,20 +89,9 @@ const importIlias = async (e: Event) => {
     try {
       _tree.each((node: any) => {
         const type: NodeType = node.data.type.toLowerCase();
-        const metaParentType = NodeModel[type].metaParentType;
-        const metaChildType = NodeModel[type].metaChildType; //TODO extract method for creating nodes
+        const position = { x: node.x, y: node.y };
 
-        const newNode: Node = {
-          id: node.data.id,
-          type,
-          label: `${type}_node`,
-          position: { x: node.x, y: node.y }, //TODO Add validation back in, via blueprint objects in utils
-          data: {
-            metaParentType,
-            metaChildType,
-          },
-        };
-
+        const newNode = nodeUtils.createNode(node.data.id, type, position, nodes, edges);
         _nodes.push(newNode);
       });
 
