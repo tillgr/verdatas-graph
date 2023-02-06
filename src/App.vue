@@ -8,7 +8,7 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { reactive, ref } from 'vue';
 import { NodeType } from 'models';
-import { nodeUtils } from 'utils';
+import { graphUtils } from 'utils';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -46,7 +46,7 @@ const onDrop = (event: DragEvent) => {
     y: event.clientY - flowbounds.top,
   });
 
-  const newNode = nodeUtils.createNode(getNodeId(), type, position, nodes, edges);
+  const newNode = graphUtils.createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
 };
 

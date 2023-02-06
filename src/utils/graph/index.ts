@@ -1,4 +1,4 @@
-import { Connection, GraphEdge, GraphNode, Node } from '@vue-flow/core';
+import { Connection, Edge, GraphEdge, GraphNode, Node } from '@vue-flow/core';
 import { Ref } from 'vue';
 import { NodeData, NodeModel, NodeType } from 'models';
 
@@ -62,7 +62,7 @@ const createNode = (
   edgesRef: Ref<GraphEdge<any, any>[]>
 ): Node => {
   const data = { metaParentType: NodeModel[type].metaParentType, metaChildType: NodeModel[type].metaChildType };
-  const validationFunctions = nodeUtils.getValidationFunctions(data, nodesRef, edgesRef);
+  const validationFunctions = getValidationFunctions(data, nodesRef, edgesRef);
 
   return {
     id,
@@ -74,7 +74,17 @@ const createNode = (
   };
 };
 
-export const nodeUtils = {
+const createEdge = (source: string, target: string): Edge => {
+  const id = source + target;
+
+  return {
+    id,
+    source,
+    target,
+  };
+};
+
+export const graphUtils = {
   getNodeById,
   edgeContainsNode,
   edgeContainsNodeType,
@@ -82,4 +92,5 @@ export const nodeUtils = {
   checkForMultipleParents,
   getValidationFunctions,
   createNode,
+  createEdge,
 };

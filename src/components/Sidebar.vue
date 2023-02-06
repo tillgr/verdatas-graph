@@ -2,7 +2,7 @@
 import { Edge, Node, useVueFlow } from '@vue-flow/core';
 import { hierarchy, HierarchyPointLink, tree } from 'd3';
 import { NodeType, VueFlowGraph } from 'models';
-import { ImportSpacing, nodeUtils } from 'utils';
+import { graphUtils, ImportSpacing } from 'utils';
 import { Chapter, IliasGraph, IliasNodeTypes, InteractiveTask, Module } from 'models/IliasGraph';
 
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
@@ -87,20 +87,12 @@ const importIlias = async (e: Event) => {
         const type: NodeType = node.data.type.toLowerCase();
         const position = { x: node.x, y: node.y };
 
-        const newNode = nodeUtils.createNode(node.data.id, type, position, nodes, edges);
+        const newNode = graphUtils.createNode(node.data.id, type, position, nodes, edges);
         _nodes.push(newNode);
       });
 
       _edges = _tree.links().map((node: HierarchyPointLink<any>) => {
-        const source: string = node.source.data.id;
-        const target: string = node.target.data.id;
-        const id = source + target;
-
-        return {
-          id,
-          source,
-          target,
-        };
+        return graphUtils.createEdge(node.source.data.id, node.target.data.id);
       });
     } catch (e) {
       console.error(e);
