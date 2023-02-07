@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { Node, useVueFlow } from '@vue-flow/core';
+import { useVueFlow } from '@vue-flow/core';
 import { NodeType, VueFlowGraph } from 'models';
 import { graphUtils, importUtils } from 'utils';
 import { IliasGraph } from 'models/IliasGraph';
 
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
-const onDragStart = (event: DragEvent, node: Node) => {
+const onDragStart = (event: DragEvent, type: NodeType) => {
   if (event.dataTransfer) {
-    event.dataTransfer.setData('application/vueflow/type', node.type || '');
+    event.dataTransfer.setData('application/vueflow/type', type || '');
     event.dataTransfer.effectAllowed = 'move';
   }
 };
@@ -61,7 +61,7 @@ const importIlias = async (e: Event) => {
       class="node-templates"
       :class="'vue-flow__node-' + type"
       :draggable="true"
-      @dragstart="(event: DragEvent) => onDragStart(event, node)"
+      @dragstart="(event: DragEvent) => onDragStart(event, type)"
     >
       {{ type }}
     </div>

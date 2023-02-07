@@ -6,7 +6,7 @@ import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
 
@@ -14,6 +14,18 @@ let id = 0;
 const getNodeId = () => `dragged_${id++}`;
 const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow();
 const wrapper = ref();
+const hasTopic = computed(() => {
+  return nodes.value.some((node) => {
+    return node?.type === NodeType.Topic;
+  });
+});
+const opts = reactive({
+  bg: '#eeeeee',
+  label: '',
+});
+const currentNode = reactive({
+  id: '',
+});
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -40,6 +52,8 @@ const onNodeClick = (event: NodeMouseEvent) => {
 
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type') as NodeType;
+  if (type === NodeType.Topic && hasTopic.value) return;
+
   const flowbounds = wrapper.value.$el.getBoundingClientRect();
   const position = project({
     x: event.clientX - flowbounds.left,
@@ -49,14 +63,6 @@ const onDrop = (event: DragEvent) => {
   const newNode = graphUtils.createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
 };
-
-const opts = reactive({
-  bg: '#eeeeee',
-  label: '',
-});
-const currentNode = reactive({
-  id: '',
-});
 const updateNode = () => {
   const node = findNode(currentNode.id)!;
   node.label = opts.label;

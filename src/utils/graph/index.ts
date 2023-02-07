@@ -15,7 +15,7 @@ const edgeContainsNode = (edge: GraphEdge, node: Node) => {
 const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
   return edge.sourceNode.type === type || edge.targetNode.type === type;
 };
-const compareNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: (NodeType | undefined)[]): boolean => {
+const matchNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: (NodeType | undefined)[]): boolean => {
   const node = getNodeById(id, nodes);
   return types?.some((type) => type === node?.type) || false;
 };
@@ -46,13 +46,17 @@ const getValidationFunctions = (
 ) => {
   const { metaParentType, metaChildType } = nodeData;
 
+  const isValidSourcePos = (connection: Connection) =>
+    matchNodeTypes(connection.source, nodesRef, [metaParentType, metaChildType]) &&
+    checkForMultipleParents(connection, nodesRef, edgesRef);
+
+  const isValidTargetPos = (connection: Connection) =>
+    matchNodeTypes(connection.target, nodesRef, [metaParentType, metaChildType]) &&
+    checkForMultipleParents(connection, nodesRef, edgesRef);
+
   return {
-    isValidSourcePos: (connection: Connection) =>
-      compareNodeTypes(connection.source, nodesRef, [metaParentType, metaChildType]) &&
-      checkForMultipleParents(connection, nodesRef, edgesRef),
-    isValidTargetPos: (connection: Connection) =>
-      compareNodeTypes(connection.target, nodesRef, [metaParentType, metaChildType]) &&
-      checkForMultipleParents(connection, nodesRef, edgesRef),
+    isValidSourcePos,
+    isValidTargetPos,
   };
 };
 
@@ -124,7 +128,7 @@ export const graphUtils = {
   getNodeById,
   edgeContainsNode,
   edgeContainsNodeType,
-  compareNodeTypes,
+  compareNodeTypes: matchNodeTypes,
   checkForMultipleParents,
   getValidationFunctions,
   createNode,
