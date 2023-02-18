@@ -6,9 +6,10 @@ import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
-import { computed, reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
+import { Nodes } from 'models/NodeData';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -19,13 +20,13 @@ const hasTopic = computed(() => {
     return node?.type === NodeType.Topic;
   });
 });
-const opts = reactive({
+
+const basicOptions = {
   bg: '#eeeeee',
   label: '',
-});
-const currentNode = reactive({
-  id: '',
-});
+};
+const options = ref({ ...basicOptions });
+const optionKeys = computed(() => Object.keys(options.value).slice(Object.keys(basicOptions).length));
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -46,8 +47,8 @@ const onDragOver = (event: DragEvent) => {
 };
 
 const onNodeClick = (event: NodeMouseEvent) => {
-  currentNode.id = event.node.id;
-  opts.label = event.node.label!.toString(); //TODO fix
+  const { bg, label } = options.value;
+  options.value = { bg, label, ...Nodes[event.node.type as NodeType] } || {};
 };
 
 const onDrop = (event: DragEvent) => {
@@ -63,10 +64,9 @@ const onDrop = (event: DragEvent) => {
   const newNode = graphUtils.createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
 };
-const updateNode = () => {
-  const node = findNode(currentNode.id)!;
-  node.label = opts.label;
-  node.style = { backgroundColor: opts.bg };
+const updateNode = (e: InputEvent) => {
+  console.log(options.value);
+  //TODO copy state into data of the node or write directly into the node data
 };
 </script>
 
@@ -86,10 +86,19 @@ const updateNode = () => {
     >
       <div class="updatenode__controls">
         <label>label:</label>
-        <input v-model="opts.label" @input="updateNode" />
+        <input v-model="options.label" @input="updateNode" />
 
         <label class="updatenode__bglabel">background:</label>
-        <input v-model="opts.bg" type="color" @input="updateNode" />
+        <input v-model="options.bg" type="color" @input="updateNode" />
+
+        <div v-for="key of optionKeys">
+          <label>{{ key }}</label>
+          <select v-if="typeof options[key] == 'boolean'">
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+          <input v-else v-model="options[key]" @input="updateNode" />
+        </div>
       </div>
       <template #node-module="props">
         <Module v-bind="props" />
