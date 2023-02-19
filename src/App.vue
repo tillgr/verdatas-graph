@@ -16,13 +16,52 @@ import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
 import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
 import { basicOptions } from 'models/NodeData';
 import useStore from 'store';
 
 const store = useStore();
+
+watch(
+  () => store.elements,
+  (data: unknown[], oldData: unknown[]) => {
+    if (!isEqualDeep(data, oldData)) {
+      store.pushToHistory(data);
+      console.log('history', store.history);
+    }
+  },
+  { deep: true }
+);
+
+const observedKeys = ['data', 'id', 'type', 'sourceNode', 'targetNode'];
+
+const filterByKeys = (item: any, keys: string[]) => {
+  return Object.keys(item)
+    .filter((key) => keys.includes(key))
+    .reduce((obj, key) => {
+      return {
+        ...obj,
+        [key]: item[key],
+      };
+    }, {});
+};
+
+const objectsEqual = (o1: any, o2: any): boolean =>
+  typeof o1 === 'object' && Object.keys(o1).length > 0
+    ? Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every((p) => objectsEqual(o1[p], o2[p]))
+    : o1 === o2;
+
+const arraysEqual = (a1: any[], a2: any[]) =>
+  a1.length === a2.length && a1.every((o: any, idx: number) => objectsEqual(o, a2[idx]));
+
+const isEqualDeep = (data: any[], oldData: any[]): boolean => {
+  const filteredData = data.map((item: { [key: string]: any }) => filterByKeys(item, observedKeys));
+  const filteredOldData = oldData.map((item: { [key: string]: any }) => filterByKeys(item, observedKeys));
+
+  return arraysEqual(filteredData, filteredOldData);
+};
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -32,6 +71,7 @@ const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeN
   connectOnClick: true,
   fitViewOnInit: false,
 });
+
 const wrapper = ref();
 const hasTopic = computed(() => {
   return nodes.value.some((node) => {
@@ -134,6 +174,7 @@ const deleteNode = () => {
     >
       <div style="position: absolute; left: 10px; top: 10px; z-index: 4">
         <button @click="store.log">log store state</button>
+        <button @click="store.undo">semantic undo</button>
       </div>
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />

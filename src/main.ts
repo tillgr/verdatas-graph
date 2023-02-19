@@ -4,7 +4,6 @@ import App from './App.vue';
 import { createPinia } from 'pinia';
 
 const pinia = createPinia();
-// pinia.use(PiniaUndo);
 
 const app = createApp(App);
 
