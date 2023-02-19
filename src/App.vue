@@ -20,6 +20,9 @@ import { computed, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
 import { basicOptions } from 'models/NodeData';
+import useStore from 'store';
+
+const store = useStore();
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -111,6 +114,7 @@ const deleteNode = () => {
   <div class="dndflow" @drop="onDrop">
     <Sidebar />
     <VueFlow
+      v-model="store.elements"
       auto-connect
       :edges-updatable="true"
       :snap-to-grid="true"
@@ -128,6 +132,9 @@ const deleteNode = () => {
       @edge-update-start="onEdgeUpdateStart"
       @edge-update-end="onEdgeUpdateEnd"
     >
+      <div style="position: absolute; left: 10px; top: 10px; z-index: 4">
+        <button @click="store.log">log store state</button>
+      </div>
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />
       <Controls />
