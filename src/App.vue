@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { Connection, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
+import {
+  Connection,
+  ConnectionMode,
+  FlowEvents,
+  NodeMouseEvent,
+  useVueFlow,
+  VueFlow,
+  VueFlowStore,
+} from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { Controls } from '@vue-flow/controls';
 import { MiniMap } from '@vue-flow/minimap';
@@ -12,11 +20,10 @@ import { computed, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
 import { basicOptions } from 'models/NodeData';
-import ConnectionLine from './components/SnappableConnectionLine.vue';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
-const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow({
+const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeNodes, removeEdges } = useVueFlow({
   minZoom: 0.2,
   maxZoom: 4,
   connectOnClick: true,
@@ -35,6 +42,8 @@ const options = ref({
 });
 const currentNodeId = ref('');
 const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
+
+const edgeUpdateSuccessful = ref(true);
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -83,6 +92,19 @@ const updateNode = () => {
   node.data = { ...node.data, ...options.value.data };
   node.style = { backgroundColor: options.value.data.background };
 };
+const onEdgeUpdateStart = () => {
+  edgeUpdateSuccessful.value = false;
+};
+const onEdgeUpdateEnd = ({ edge }: FlowEvents['edgeUpdateEnd']) => {
+  !edgeUpdateSuccessful.value && removeEdges([edge]);
+};
+const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
+  edgeUpdateSuccessful.value = true;
+  updateEdge(edge, connection);
+};
+const deleteNode = () => {
+  removeNodes([currentNodeId.value]);
+};
 </script>
 
 <template>
@@ -90,7 +112,10 @@ const updateNode = () => {
     <Sidebar />
     <VueFlow
       auto-connect
-      :connection-radius="30"
+      :edges-updatable="true"
+      :snap-to-grid="true"
+      :connection-mode="ConnectionMode.Loose"
+      :connection-radius="50"
       class="validationflow"
       ref="wrapper"
       @dragover="onDragOver"
@@ -99,20 +124,13 @@ const updateNode = () => {
       @connect-start="onConnectStart"
       @connect-end="onConnectEnd"
       @node-click="onNodeClick"
+      @edge-update="onEdgeUpdate"
+      @edge-update-start="onEdgeUpdateStart"
+      @edge-update-end="onEdgeUpdateEnd"
     >
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />
       <Controls />
-      <template #connection-line="{ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }">
-        <ConnectionLine
-          :source-x="sourceX"
-          :source-y="sourceY"
-          :target-x="targetX"
-          :target-y="targetY"
-          :source-position="sourcePosition"
-          :target-position="targetPosition"
-        />
-      </template>
       <div class="updatenode__controls">
         <label>label:</label>
         <input v-model="options.label" @input="updateNode" />
@@ -125,6 +143,7 @@ const updateNode = () => {
           </select>
           <input v-else v-model="options.data[key]" @input="updateNode" />
         </div>
+        <button class="delete-button" @click="deleteNode">delete</button>
       </div>
       <template #node-module="props">
         <Module v-bind="props" />

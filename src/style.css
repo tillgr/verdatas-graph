@@ -120,6 +120,11 @@ body,
   height: 100%;
 }
 
+.dndflow .delete-button {
+  background-color: #ff6060;
+  border: 1px solid #000000;
+}
+
 @media screen and (min-width: 768px) {
   .dndflow {
     flex-direction: row;
