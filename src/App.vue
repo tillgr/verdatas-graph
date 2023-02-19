@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Connection, NodeMouseEvent, useVueFlow, VueFlow, VueFlowStore } from '@vue-flow/core';
-import { Background, Controls, MiniMap } from '@vue-flow/additional-components';
+import { Background } from '@vue-flow/background';
+import { Controls } from '@vue-flow/controls';
+import { MiniMap } from '@vue-flow/minimap';
 import Module from './components/Module.vue';
 import Chapter from './components/Chapter.vue';
 import Topic from './components/Topic.vue';
@@ -13,7 +15,12 @@ import { basicOptions } from 'models/NodeData';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
-const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow();
+const { addEdges, addNodes, project, nodes, edges, findNode } = useVueFlow({
+  minZoom: 0.2,
+  maxZoom: 4,
+  connectOnClick: true,
+  fitViewOnInit: false,
+});
 const wrapper = ref();
 const hasTopic = computed(() => {
   return nodes.value.some((node) => {
@@ -81,7 +88,8 @@ const updateNode = () => {
   <div class="dndflow" @drop="onDrop">
     <Sidebar />
     <VueFlow
-      fit-view-on-init
+      auto-connect
+      :connection-radius="30"
       class="validationflow"
       ref="wrapper"
       @dragover="onDragOver"
@@ -91,6 +99,9 @@ const updateNode = () => {
       @connect-end="onConnectEnd"
       @node-click="onNodeClick"
     >
+      <Background pattern-color="#aaa" gap="8" />
+      <MiniMap />
+      <Controls />
       <div class="updatenode__controls">
         <label>label:</label>
         <input v-model="options.label" @input="updateNode" />
@@ -116,9 +127,6 @@ const updateNode = () => {
       <template #node-interactivetask="props">
         <InteractiveTask v-bind="props" />
       </template>
-      <MiniMap />
-      <Background pattern-color="#aaa" gap="8" />
-      <Controls />
     </VueFlow>
   </div>
 </template>
