@@ -23,14 +23,18 @@ import { basicOptions } from 'models/NodeData';
 import useStore from 'store';
 
 const store = useStore();
+const historyLocation = ref(0);
+const historyUsed = ref(false);
 
+// https://stackoverflow.com/questions/73612018/how-to-create-history-data-in-pinia
 watch(
   () => store.elements,
   (data: unknown[], oldData: unknown[]) => {
-    if (!isEqualDeep(data, oldData)) {
+    if (!isEqualDeep(data, oldData) && !historyUsed.value) {
       store.pushToHistory(data);
       console.log('history', store.history);
     }
+    historyUsed.value = false;
   },
   { deep: true }
 );
@@ -48,6 +52,16 @@ const filterByKeys = (item: any, keys: string[]) => {
     }, {});
 };
 
+const undo = () => {
+  historyUsed.value = true;
+  store.elements = store.history.at(-2 - historyLocation.value) || [];
+  // historyLocation.value = historyLocation.value + 2;
+  historyLocation.value++;
+
+  console.log('elements', store.elements);
+};
+
+// https://stackoverflow.com/questions/27030/comparing-arrays-of-objects-in-javascript
 const objectsEqual = (o1: any, o2: any): boolean =>
   typeof o1 === 'object' && Object.keys(o1).length > 0
     ? Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every((p) => objectsEqual(o1[p], o2[p]))
@@ -174,7 +188,7 @@ const deleteNode = () => {
     >
       <div style="position: absolute; left: 10px; top: 10px; z-index: 4">
         <button @click="store.log">log store state</button>
-        <button @click="store.undo">semantic undo</button>
+        <button @click="undo">semantic undo</button>
       </div>
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />
