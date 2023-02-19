@@ -1,22 +1,34 @@
 import { NodeType } from 'models/CustomNode';
 
-type Module = {
+export type ModuleOptions = {
   structure: string;
   processingTime: number;
   level: string;
 };
 
-type InteractiveTask = {
+export type InteractiveTaskOptions = {
   concludeModule: boolean;
 };
 
-export const Nodes: Record<string, InteractiveTask | Module> = {
+export const basicOptions = {
+  background: '#ffffff',
+};
+
+export const NodesData: Record<string, InteractiveTaskOptions | ModuleOptions | typeof basicOptions> = {
+  [NodeType.Topic]: {
+    ...basicOptions,
+  },
   [NodeType.Module]: {
+    ...basicOptions,
     structure: '',
     processingTime: 0,
     level: '',
   },
+  [NodeType.Chapter]: {
+    ...basicOptions,
+  },
   [NodeType.InteractiveTask]: {
+    ...basicOptions,
     concludeModule: false,
   },
 };

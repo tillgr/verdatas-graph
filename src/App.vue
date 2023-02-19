@@ -9,7 +9,7 @@ import Sidebar from './components/Sidebar.vue';
 import { computed, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
-import { Nodes } from 'models/NodeData';
+import { basicOptions } from 'models/NodeData';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -21,12 +21,12 @@ const hasTopic = computed(() => {
   });
 });
 
-const basicOptions = {
-  bg: '#eeeeee',
+const options = ref({
   label: '',
-};
-const options = ref({ ...basicOptions });
-const optionKeys = computed(() => Object.keys(options.value).slice(Object.keys(basicOptions).length));
+  data: { ...basicOptions },
+});
+const currentNodeId = ref('');
+const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -47,8 +47,11 @@ const onDragOver = (event: DragEvent) => {
 };
 
 const onNodeClick = (event: NodeMouseEvent) => {
-  const { bg, label } = options.value;
-  options.value = { bg, label, ...Nodes[event.node.type as NodeType] } || {};
+  if (!event.node) return;
+  currentNodeId.value = event.node.id;
+
+  const { metaParentType, metaChildType, ...rest } = event.node.data;
+  options.value = { label: event.node.label as string, data: { ...rest } };
 };
 
 const onDrop = (event: DragEvent) => {
@@ -64,9 +67,13 @@ const onDrop = (event: DragEvent) => {
   const newNode = graphUtils.createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
 };
-const updateNode = (e: InputEvent) => {
-  console.log(options.value);
-  //TODO copy state into data of the node or write directly into the node data
+const updateNode = () => {
+  const node = findNode(currentNodeId.value);
+  if (!node) return;
+
+  node.label = options.value.label;
+  node.data = { ...node.data, ...options.value.data };
+  node.style = { backgroundColor: options.value.data.background };
 };
 </script>
 
@@ -87,17 +94,14 @@ const updateNode = (e: InputEvent) => {
       <div class="updatenode__controls">
         <label>label:</label>
         <input v-model="options.label" @input="updateNode" />
-
-        <label class="updatenode__bglabel">background:</label>
-        <input v-model="options.bg" type="color" @input="updateNode" />
-
         <div v-for="key of optionKeys">
-          <label>{{ key }}</label>
-          <select v-if="typeof options[key] == 'boolean'">
+          <label>{{ key }}:</label>
+          <input v-if="key === 'background'" v-model="options.data.background" type="color" @input="updateNode" />
+          <select v-else-if="typeof options.data[key] == 'boolean'" v-model="options.data[key]">
             <option value="true">true</option>
             <option value="false">false</option>
           </select>
-          <input v-else v-model="options[key]" @input="updateNode" />
+          <input v-else v-model="options.data[key]" @input="updateNode" />
         </div>
       </div>
       <template #node-module="props">

@@ -3,6 +3,7 @@ import { Ref } from 'vue';
 import { NodeData, NodeModel, NodeType } from 'models';
 import { d3Hierarchy, ImportSpacing } from 'utils/import';
 import { hierarchy, HierarchyPointLink, tree } from 'd3';
+import { NodesData } from 'models/NodeData';
 
 const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
   return nodes.value.filter((el) => {
@@ -67,7 +68,11 @@ const createNode = (
   nodesRef: Ref<GraphNode<any, any>[]>,
   edgesRef: Ref<GraphEdge<any, any>[]>
 ): Node => {
-  const data = { metaParentType: NodeModel[type].metaParentType, metaChildType: NodeModel[type].metaChildType };
+  const data = {
+    metaParentType: NodeModel[type].metaParentType,
+    metaChildType: NodeModel[type].metaChildType,
+    ...NodesData[type],
+  };
   const validationFunctions = getValidationFunctions(data, nodesRef, edgesRef);
 
   return {
