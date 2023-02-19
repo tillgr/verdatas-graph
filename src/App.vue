@@ -12,6 +12,7 @@ import { computed, ref } from 'vue';
 import { NodeType } from 'models';
 import { graphUtils } from 'utils';
 import { basicOptions } from 'models/NodeData';
+import ConnectionLine from './components/SnappableConnectionLine.vue';
 
 let id = 0;
 const getNodeId = () => `dragged_${id++}`;
@@ -102,6 +103,16 @@ const updateNode = () => {
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />
       <Controls />
+      <template #connection-line="{ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }">
+        <ConnectionLine
+          :source-x="sourceX"
+          :source-y="sourceY"
+          :target-x="targetX"
+          :target-y="targetY"
+          :source-position="sourcePosition"
+          :target-position="targetPosition"
+        />
+      </template>
       <div class="updatenode__controls">
         <label>label:</label>
         <input v-model="options.label" @input="updateNode" />
