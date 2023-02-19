@@ -54,9 +54,18 @@ const filterByKeys = (item: any, keys: string[]) => {
 
 const undo = () => {
   historyUsed.value = true;
-  store.elements = store.history.at(-2 - historyLocation.value) || [];
-  // historyLocation.value = historyLocation.value + 2;
+
   historyLocation.value++;
+  store.elements = store.history.at(-1 - historyLocation.value) || [];
+
+  console.log('elements', store.elements);
+};
+
+const redo = () => {
+  historyUsed.value = true;
+
+  historyLocation.value--;
+  store.elements = store.history.at(-1 - historyLocation.value) || [];
 
   console.log('elements', store.elements);
 };
@@ -189,6 +198,7 @@ const deleteNode = () => {
       <div style="position: absolute; left: 10px; top: 10px; z-index: 4">
         <button @click="store.log">log store state</button>
         <button @click="undo">semantic undo</button>
+        <button @click="redo">semantic redo</button>
       </div>
       <Background pattern-color="#aaa" gap="8" />
       <MiniMap />
