@@ -10,7 +10,7 @@ export type InteractiveTaskOptions = {
   concludeModule: boolean;
 };
 
-export const basicOptions = {
+export const basicOptions: { [key: string]: string } = {
   background: '#ffffff',
 };
 

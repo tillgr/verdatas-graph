@@ -55,6 +55,7 @@ const filterByKeys = (item: any, keys: string[]) => {
 const undo = () => {
   historyUsed.value = true;
 
+  //TODO validate idx
   historyLocation.value++;
   store.elements = store.history.at(-1 - historyLocation.value) || [];
 
@@ -64,6 +65,7 @@ const undo = () => {
 const redo = () => {
   historyUsed.value = true;
 
+  //TODO validate idx
   historyLocation.value--;
   store.elements = store.history.at(-1 - historyLocation.value) || [];
 
@@ -112,11 +114,6 @@ const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
 const edgeUpdateSuccessful = ref(true);
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
-
-const onConnectStart = ({ nodeId, handleType }: { [key: string]: string }) =>
-  console.log('on connect start', { nodeId, handleType });
-
-const onConnectEnd = (event: Event) => console.log('on connect end', event);
 
 const onConnect = (params: Connection) => {
   addEdges([{ ...params, type: 'smoothstep' }]);
@@ -188,8 +185,6 @@ const deleteNode = () => {
       @dragover="onDragOver"
       @connect="onConnect"
       @pane-ready="onLoad"
-      @connect-start="onConnectStart"
-      @connect-end="onConnectEnd"
       @node-click="onNodeClick"
       @edge-update="onEdgeUpdate"
       @edge-update-start="onEdgeUpdateStart"
@@ -200,7 +195,7 @@ const deleteNode = () => {
         <button @click="undo">semantic undo</button>
         <button @click="redo">semantic redo</button>
       </div>
-      <Background pattern-color="#aaa" gap="8" />
+      <Background pattern-color="#aaa" :gap="8" />
       <MiniMap />
       <Controls />
       <div class="updatenode__controls">
