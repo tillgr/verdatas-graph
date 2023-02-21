@@ -1,0 +1,481 @@
+{
+  "nodes": [
+    {
+      "type": "interactivetask",
+      "dimensions": {
+        "width": 150,
+        "height": 78
+      },
+      "handleBounds": {
+        "target": [
+          {
+            "id": "dndnode_0__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 247,
+        "y": 524,
+        "z": 1000
+      },
+      "data": {
+        "metaParentType": "chapter",
+        "metaChildType": ""
+      },
+      "events": {},
+      "id": "dndnode_0",
+      "position": {
+        "x": 247,
+        "y": 524
+      },
+      "label": "interactivetask node",
+      "selected": true
+    },
+    {
+      "type": "chapter",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "dndnode_1__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "dndnode_1__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 430,
+        "y": 231,
+        "z": 0
+      },
+      "data": {
+        "metaParentType": "module",
+        "metaChildType": "interactivetask"
+      },
+      "events": {},
+      "id": "dndnode_1",
+      "position": {
+        "x": 430,
+        "y": 231
+      },
+      "label": "chapter node",
+      "selected": false
+    },
+    {
+      "type": "chapter",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "dndnode_2__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "dndnode_2__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 102,
+        "y": 229,
+        "z": 0
+      },
+      "data": {
+        "metaParentType": "module",
+        "metaChildType": "interactivetask"
+      },
+      "events": {},
+      "id": "dndnode_2",
+      "position": {
+        "x": 102,
+        "y": 229
+      },
+      "label": "chapter node",
+      "selected": false
+    },
+    {
+      "type": "module",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "dndnode_3__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "dndnode_3__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 292,
+        "y": 69,
+        "z": 0
+      },
+      "data": {
+        "metaParentType": "topic",
+        "metaChildType": "chapter"
+      },
+      "events": {},
+      "id": "dndnode_3",
+      "position": {
+        "x": 292,
+        "y": 69
+      },
+      "label": "module node",
+      "selected": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "vueflow__edge-dndnode_1dndnode_1__handle-bottom-dndnode_0dndnode_0__handle-top",
+      "source": "dndnode_1",
+      "sourceHandle": "dndnode_1__handle-bottom",
+      "target": "dndnode_0",
+      "targetHandle": "dndnode_0__handle-top",
+      "type": "smoothstep",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "dndnode_1__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "dndnode_1__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 430,
+          "y": 231,
+          "z": 0
+        },
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "dndnode_1",
+        "position": {
+          "x": 430,
+          "y": 231
+        },
+        "label": "chapter node",
+        "selected": false
+      },
+      "targetNode": {
+        "type": "interactivetask",
+        "dimensions": {
+          "width": 150,
+          "height": 78
+        },
+        "handleBounds": {
+          "target": [
+            {
+              "id": "dndnode_0__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 247,
+          "y": 524,
+          "z": 1000
+        },
+        "data": {
+          "metaParentType": "chapter",
+          "metaChildType": ""
+        },
+        "events": {},
+        "id": "dndnode_0",
+        "position": {
+          "x": 247,
+          "y": 524
+        },
+        "label": "interactivetask node",
+        "selected": true
+      }
+    },
+    {
+      "id": "vueflow__edge-dndnode_3dndnode_3__handle-bottom-dndnode_2dndnode_2__handle-top",
+      "source": "dndnode_3",
+      "sourceHandle": "dndnode_3__handle-bottom",
+      "target": "dndnode_2",
+      "targetHandle": "dndnode_2__handle-top",
+      "type": "smoothstep",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "dndnode_3__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "dndnode_3__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 292,
+          "y": 69,
+          "z": 0
+        },
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter"
+        },
+        "events": {},
+        "id": "dndnode_3",
+        "position": {
+          "x": 292,
+          "y": 69
+        },
+        "label": "module node",
+        "selected": false
+      },
+      "targetNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "dndnode_2__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "dndnode_2__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 102,
+          "y": 229,
+          "z": 0
+        },
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "dndnode_2",
+        "position": {
+          "x": 102,
+          "y": 229
+        },
+        "label": "chapter node",
+        "selected": false
+      }
+    },
+    {
+      "id": "vueflow__edge-dndnode_3dndnode_3__handle-bottom-dndnode_1dndnode_1__handle-top",
+      "source": "dndnode_3",
+      "sourceHandle": "dndnode_3__handle-bottom",
+      "target": "dndnode_1",
+      "targetHandle": "dndnode_1__handle-top",
+      "type": "smoothstep",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "dndnode_3__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "dndnode_3__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 292,
+          "y": 69,
+          "z": 0
+        },
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter"
+        },
+        "events": {},
+        "id": "dndnode_3",
+        "position": {
+          "x": 292,
+          "y": 69
+        },
+        "label": "module node",
+        "selected": false
+      },
+      "targetNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "dndnode_1__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "dndnode_1__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 430,
+          "y": 231,
+          "z": 0
+        },
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "dndnode_1",
+        "position": {
+          "x": 430,
+          "y": 231
+        },
+        "label": "chapter node",
+        "selected": false
+      }
+    }
+  ],
+  "position": [
+    0,
+    0
+  ],
+  "zoom": 1
+}

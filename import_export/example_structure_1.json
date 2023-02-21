@@ -1,0 +1,406 @@
+{
+    "tree": 1,
+    "child": "83",
+    "parent": "1",
+    "lft": "0",
+    "rgt": "0",
+    "depth": "2",
+    "path": "1.83",
+    "ref_id": "83",
+    "obj_id": "315",
+    "deleted": null,
+    "deleted_by": "0",
+    "type": "crs",
+    "title": "Tommys zweiter Minimaltest",
+    "description": "",
+    "owner": "297",
+    "create_date": "2022-11-26 00:19:36",
+    "last_update": "2022-11-26 00:19:44",
+    "import_id": null,
+    "offline": "0",
+    "desc": "",
+    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=crs_83&client_id=default&obj_id_lrs=315",
+    "modules": [
+        {
+            "tree": "1",
+            "child": "84",
+            "parent": "83",
+            "lft": "0",
+            "rgt": "0",
+            "depth": "3",
+            "path": "1.83.84",
+            "ref_id": "84",
+            "obj_id": "319",
+            "deleted": null,
+            "deleted_by": "0",
+            "type": "lm",
+            "title": "Test",
+            "description": "",
+            "owner": "297",
+            "create_date": "2022-11-26 00:20:01",
+            "last_update": "2022-11-26 00:22:28",
+            "import_id": null,
+            "offline": "0",
+            "desc": "",
+            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&obj_id_lrs=319",
+            "chapters": [
+                {
+                    "title": "New Chapter 1",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "4",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_4_84&client_id=default&obj_id_lrs=319",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "4",
+                            "obj_id": "5",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_5_84&client_id=default&obj_id_lrs=319",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                },
+                {
+                    "title": "New Chapter 2",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "7",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_7_84&client_id=default&obj_id_lrs=319",
+                    "pages": [
+                        {
+                            "title": "New Page 1",
+                            "type": "pg",
+                            "parent": "7",
+                            "obj_id": "9",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_9_84&client_id=default&obj_id_lrs=319",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        },
+                        {
+                            "title": "New Page 2",
+                            "type": "pg",
+                            "parent": "7",
+                            "obj_id": "8",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_8_84&client_id=default&obj_id_lrs=319",
+                            "xmlContent": "\n\n<PageObject><PageContent PCID=\"3389b4138806bdcc1b04dc8521b5f2ca\"><Plugged PluginName=\"H5PPageComponent\" PluginVersion=\"2.1.2\"><PluggedProperty Name=\"content_id\">3</PluggedProperty></Plugged></PageContent><PageContent PCID=\"6902af52e9487ff9800e4eca4378898a\"><Plugged PluginName=\"H5PPageComponent\" PluginVersion=\"2.1.2\"><PluggedProperty Name=\"content_id\">4</PluggedProperty></Plugged></PageContent></PageObject>\n",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": [
+                                {
+                                    "name": "H5P.MultiChoice",
+                                    "title": "MC 1",
+                                    "content_id": "3",
+                                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=3&obj_id_lrs=319"
+                                },
+                                {
+                                    "name": "H5P.MultiChoice",
+                                    "title": "MC2",
+                                    "content_id": "4",
+                                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=4&obj_id_lrs=319"
+                                }
+                            ]
+                        }
+                    ],
+                    "interactiveTasks": [
+                        {
+                            "name": "H5P.MultiChoice",
+                            "title": "MC 1",
+                            "content_id": "3",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=3&obj_id_lrs=319"
+                        },
+                        {
+                            "name": "H5P.MultiChoice",
+                            "title": "MC2",
+                            "content_id": "4",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=4&obj_id_lrs=319"
+                        }
+                    ]
+                },
+                {
+                    "title": "New Chapter 3",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "6",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_6_84&client_id=default&obj_id_lrs=319",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "6",
+                            "obj_id": "10",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_10_84&client_id=default&obj_id_lrs=319",
+                            "xmlContent": "\n\n<PageObject><PageContent PCID=\"5368b8f28992407ba3d0d5b713a0af57\"><Plugged PluginName=\"H5PPageComponent\" PluginVersion=\"2.1.2\"><PluggedProperty Name=\"content_id\">5</PluggedProperty></Plugged></PageContent></PageObject>\n",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": [
+                                {
+                                    "name": "H5P.MultiChoice",
+                                    "title": "MC3",
+                                    "content_id": "5",
+                                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=5&obj_id_lrs=319"
+                                }
+                            ]
+                        }
+                    ],
+                    "interactiveTasks": [
+                        {
+                            "name": "H5P.MultiChoice",
+                            "title": "MC3",
+                            "content_id": "5",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_84&client_id=default&h5p_object_id=5&obj_id_lrs=319"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tree": "1",
+            "child": "85",
+            "parent": "83",
+            "lft": "0",
+            "rgt": "0",
+            "depth": "3",
+            "path": "1.83.85",
+            "ref_id": "85",
+            "obj_id": "320",
+            "deleted": null,
+            "deleted_by": "0",
+            "type": "lm",
+            "title": "Test2",
+            "description": "",
+            "owner": "297",
+            "create_date": "2022-11-26 00:22:42",
+            "last_update": "2022-11-26 00:23:08",
+            "import_id": null,
+            "offline": "0",
+            "desc": "",
+            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_85&client_id=default&obj_id_lrs=320",
+            "chapters": [
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "11",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_11_85&client_id=default&obj_id_lrs=320",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "11",
+                            "obj_id": "12",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_12_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                },
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "15",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_15_85&client_id=default&obj_id_lrs=320",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "15",
+                            "obj_id": "18",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_18_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        },
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "15",
+                            "obj_id": "17",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_17_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        },
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "15",
+                            "obj_id": "16",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_16_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                },
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "14",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_14_85&client_id=default&obj_id_lrs=320",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "14",
+                            "obj_id": "20",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_20_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        },
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "14",
+                            "obj_id": "19",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_19_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                },
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "13",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_13_85&client_id=default&obj_id_lrs=320",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "13",
+                            "obj_id": "21",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_21_85&client_id=default&obj_id_lrs=320",
+                            "xmlContent": "<PageObject></PageObject>",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tree": "1",
+            "child": "86",
+            "parent": "83",
+            "lft": "0",
+            "rgt": "0",
+            "depth": "3",
+            "path": "1.83.86",
+            "ref_id": "86",
+            "obj_id": "321",
+            "deleted": null,
+            "deleted_by": "0",
+            "type": "lm",
+            "title": "Lernmodul 3",
+            "description": "",
+            "owner": "297",
+            "create_date": "2022-11-29 10:04:32",
+            "last_update": "2022-11-29 10:05:05",
+            "import_id": null,
+            "offline": "0",
+            "desc": "",
+            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_86&client_id=default&obj_id_lrs=321",
+            "chapters": [
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "22",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_22_86&client_id=default&obj_id_lrs=321",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "22",
+                            "obj_id": "23",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_23_86&client_id=default&obj_id_lrs=321",
+                            "xmlContent": "\n\n<PageObject><PageContent PCID=\"95843d5e2600d2f8e6c6a606c2b1bfc5\"><Paragraph Language=\"en\" Characteristic=\"Standard\">Text</Paragraph></PageContent></PageObject>\n",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tree": "1",
+            "child": "87",
+            "parent": "83",
+            "lft": "0",
+            "rgt": "0",
+            "depth": "3",
+            "path": "1.83.87",
+            "ref_id": "87",
+            "obj_id": "322",
+            "deleted": null,
+            "deleted_by": "0",
+            "type": "lm",
+            "title": "Test 4",
+            "description": "",
+            "owner": "297",
+            "create_date": "2022-12-02 10:32:56",
+            "last_update": "2022-12-02 10:32:56",
+            "import_id": null,
+            "offline": "1",
+            "desc": "",
+            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_87&client_id=default&obj_id_lrs=322",
+            "chapters": [
+                {
+                    "title": "New Chapter",
+                    "type": "st",
+                    "parent": "1",
+                    "obj_id": "24",
+                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=st_24_87&client_id=default&obj_id_lrs=322",
+                    "pages": [
+                        {
+                            "title": "New Page",
+                            "type": "pg",
+                            "parent": "24",
+                            "obj_id": "25",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=pg_25_87&client_id=default&obj_id_lrs=322",
+                            "xmlContent": "\n\n<PageObject><PageContent PCID=\"602ca01fe5a98fe6ed1f494080cf16b3\"><Plugged PluginName=\"H5PPageComponent\" PluginVersion=\"2.1.2\"><PluggedProperty Name=\"content_id\">6</PluggedProperty></Plugged></PageContent></PageObject>\n",
+                            "multimediaXml": "",
+                            "questionsXml": "",
+                            "questionsXhfp": [
+                                {
+                                    "name": "H5P.MultiChoice",
+                                    "title": "Test 4 Aufgabe",
+                                    "content_id": "6",
+                                    "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_87&client_id=default&h5p_object_id=6&obj_id_lrs=322"
+                                }
+                            ]
+                        }
+                    ],
+                    "interactiveTasks": [
+                        {
+                            "name": "H5P.MultiChoice",
+                            "title": "Test 4 Aufgabe",
+                            "content_id": "6",
+                            "object_id": "http://develop.verdatas.inf.tu-dresden.de:8091/goto.php?target=lm_87&client_id=default&h5p_object_id=6&obj_id_lrs=322"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
