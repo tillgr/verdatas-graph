@@ -26,7 +26,7 @@
 }
 
 .mask-item:last-child {
-  justify-content: end;
+  justify-content: center;
 }
 
 .updatenode__controls label {

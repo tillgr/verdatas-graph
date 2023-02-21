@@ -27,13 +27,13 @@ body,
 button {
   display: flex;
   align-items: center;
-  border: 1px solid #2C3E50FF;
+  border: 1px solid #000000;
   border-radius: 0.1rem;
   height: 1.5rem;
 }
 
-input {
-  height: 1.5rem !important;
+input[type=text] {
+  height: 1.25rem !important;
 }
 
 button svg {
@@ -156,7 +156,6 @@ h2 {
 
 .dndflow .delete-button {
   background-color: #ff6060;
-  border: 1px solid #000000;
 }
 
 @media screen and (min-width: 768px) {

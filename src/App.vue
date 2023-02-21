@@ -178,16 +178,19 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
         <div>
           <div class="mask-item">
             <label>label:</label>
-            <input v-model="options.label" @input="updateNode" />
+            <input type="text" v-model="options.label" @input="updateNode" />
           </div>
           <div class="mask-item" v-for="key of optionKeys">
             <label>{{ key }}:</label>
             <input v-if="key === 'background'" v-model="options.data.background" type="color" @input="updateNode" />
-            <select v-else-if="typeof options.data[key] == 'boolean'" v-model="options.data[key]">
+            <select
+              v-else-if="typeof options.data[key] == 'boolean' || key.toLowerCase() === 'concludemodule'"
+              v-model="options.data[key]"
+            >
               <option value="true">true</option>
               <option value="false">false</option>
             </select>
-            <input v-else v-model="options.data[key]" @input="updateNode" />
+            <input type="text" v-else v-model="options.data[key]" @input="updateNode" />
           </div>
           <div class="mask-item">
             <button class="delete-button" @click="deleteNode">delete</button>
