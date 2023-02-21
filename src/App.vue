@@ -23,7 +23,7 @@ import { basicOptions } from 'models/NodeData';
 import useStore from 'store';
 
 const store = useStore();
-const historyLocation = ref(0);
+const historyLocation = ref(-1);
 const historyUsed = ref(false);
 
 // https://stackoverflow.com/questions/73612018/how-to-create-history-data-in-pinia
@@ -55,21 +55,19 @@ const filterByKeys = (item: any, keys: string[]) => {
 const undo = () => {
   historyUsed.value = true;
 
-  //TODO validate idx
-  historyLocation.value++;
-  store.elements = store.history.at(-1 - historyLocation.value) || [];
-
-  console.log('elements', store.elements);
+  if (historyLocation.value >= -store.history.length) {
+    historyLocation.value--;
+    store.elements = store.history.at(historyLocation.value) || [];
+  }
 };
 
 const redo = () => {
   historyUsed.value = true;
 
-  //TODO validate idx
-  historyLocation.value--;
-  store.elements = store.history.at(-1 - historyLocation.value) || [];
-
-  console.log('elements', store.elements);
+  if (historyLocation.value < -1) {
+    historyLocation.value++;
+    store.elements = store.history.at(historyLocation.value) || [];
+  }
 };
 
 // https://stackoverflow.com/questions/27030/comparing-arrays-of-objects-in-javascript
@@ -199,6 +197,7 @@ const deleteNode = () => {
       <MiniMap />
       <Controls />
       <div class="updatenode__controls">
+        <strong>Edit node</strong>
         <label>label:</label>
         <input v-model="options.label" @input="updateNode" />
         <div v-for="key of optionKeys">

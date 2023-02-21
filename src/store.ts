@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 const useStore = defineStore('elementsStore', {
   state() {
     return {
-      elements: [] as any[],
+      elements: [[]] as any[],
       history: [] as any[][],
     };
   },
