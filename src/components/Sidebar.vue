@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useVueFlow } from '@vue-flow/core';
 import { NodeType, VueFlowGraph } from 'models';
-import { graphUtils, importUtils } from 'utils';
 import { IliasGraph } from 'models/IliasGraph';
+import { filterJsonFile, parseJsonFile } from 'utils/import';
+import { calculateTreeLayout } from 'utils/graph';
 
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
@@ -28,7 +29,7 @@ const handleImport = async (e: Event) => {
   const file = (<HTMLInputElement>e?.target).files?.[0];
   if (!file) return;
 
-  return await importUtils.parseJsonFile(file);
+  return await parseJsonFile(file);
 };
 
 const importGraph = async (e: Event) => {
@@ -44,8 +45,8 @@ const importIlias = async (e: Event) => {
   const file = <IliasGraph | undefined>await handleImport(e);
   if (!file) return;
 
-  const filtered = importUtils.filterJsonFile(file);
-  const { nodes: newNodes, edges: newEdges } = graphUtils.calculateTreeLayout(filtered, nodes, edges);
+  const filtered = filterJsonFile(file);
+  const { nodes: newNodes, edges: newEdges } = calculateTreeLayout(filtered, nodes, edges);
 
   removeNodes(nodes.value, true);
   addNodes(newNodes);

@@ -18,19 +18,44 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { computed, ref, watch } from 'vue';
 import { NodeType } from 'models';
-import { graphUtils } from 'utils';
 import { basicOptions } from 'models/NodeData';
 import useStore from 'store';
+import { isEqualDeep } from 'utils/history';
+import { createNode } from 'utils/graph';
+
+const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeNodes, removeEdges } = useVueFlow({
+  minZoom: 0.2,
+  maxZoom: 4,
+  connectOnClick: true,
+  fitViewOnInit: false,
+});
+const wrapper = ref();
+let newNodeId = 0;
+
+const edgeUpdateSuccessful = ref(true);
+const currentNodeId = ref('');
+const options = ref({
+  label: '',
+  data: { ...basicOptions },
+});
 
 const store = useStore();
 const historyLocation = ref(-1);
+const observedKeys = ['data', 'id', 'type', 'sourceNode', 'targetNode'];
 const historyUsed = ref(false);
+
+const hasTopic = computed(() => {
+  return nodes.value.some((node) => {
+    return node?.type === NodeType.Topic;
+  });
+});
+const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
 
 // https://stackoverflow.com/questions/73612018/how-to-create-history-data-in-pinia
 watch(
   () => store.elements,
   (data: unknown[], oldData: unknown[]) => {
-    if (!isEqualDeep(data, oldData) && !historyUsed.value) {
+    if (!isEqualDeep(data, oldData, observedKeys) && !historyUsed.value) {
       store.pushToHistory(data);
       console.log('history', store.history);
     }
@@ -39,18 +64,7 @@ watch(
   { deep: true }
 );
 
-const observedKeys = ['data', 'id', 'type', 'sourceNode', 'targetNode'];
-
-const filterByKeys = (item: any, keys: string[]) => {
-  return Object.keys(item)
-    .filter((key) => keys.includes(key))
-    .reduce((obj, key) => {
-      return {
-        ...obj,
-        [key]: item[key],
-      };
-    }, {});
-};
+const getNodeId = () => `dragged_${newNodeId++}`;
 
 const undo = () => {
   historyUsed.value = true;
@@ -60,7 +74,6 @@ const undo = () => {
     store.elements = store.history.at(historyLocation.value) || [];
   }
 };
-
 const redo = () => {
   historyUsed.value = true;
 
@@ -69,47 +82,6 @@ const redo = () => {
     store.elements = store.history.at(historyLocation.value) || [];
   }
 };
-
-// https://stackoverflow.com/questions/27030/comparing-arrays-of-objects-in-javascript
-const objectsEqual = (o1: any, o2: any): boolean =>
-  typeof o1 === 'object' && Object.keys(o1).length > 0
-    ? Object.keys(o1).length === Object.keys(o2).length && Object.keys(o1).every((p) => objectsEqual(o1[p], o2[p]))
-    : o1 === o2;
-
-const arraysEqual = (a1: any[], a2: any[]) =>
-  a1.length === a2.length && a1.every((o: any, idx: number) => objectsEqual(o, a2[idx]));
-
-const isEqualDeep = (data: any[], oldData: any[]): boolean => {
-  const filteredData = data.map((item: { [key: string]: any }) => filterByKeys(item, observedKeys));
-  const filteredOldData = oldData.map((item: { [key: string]: any }) => filterByKeys(item, observedKeys));
-
-  return arraysEqual(filteredData, filteredOldData);
-};
-
-let id = 0;
-const getNodeId = () => `dragged_${id++}`;
-const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeNodes, removeEdges } = useVueFlow({
-  minZoom: 0.2,
-  maxZoom: 4,
-  connectOnClick: true,
-  fitViewOnInit: false,
-});
-
-const wrapper = ref();
-const hasTopic = computed(() => {
-  return nodes.value.some((node) => {
-    return node?.type === NodeType.Topic;
-  });
-});
-
-const options = ref({
-  label: '',
-  data: { ...basicOptions },
-});
-const currentNodeId = ref('');
-const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
-
-const edgeUpdateSuccessful = ref(true);
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
 
@@ -123,15 +95,6 @@ const onDragOver = (event: DragEvent) => {
     event.dataTransfer.dropEffect = 'move';
   }
 };
-
-const onNodeClick = (event: NodeMouseEvent) => {
-  if (!event.node) return;
-  currentNodeId.value = event.node.id;
-
-  const { metaParentType, metaChildType, ...rest } = event.node.data;
-  options.value = { label: event.node.label as string, data: { ...rest } };
-};
-
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer?.getData('application/vueflow/type') as NodeType;
   if (type === NodeType.Topic && hasTopic.value) return;
@@ -142,8 +105,16 @@ const onDrop = (event: DragEvent) => {
     y: event.clientY - flowbounds.top,
   });
 
-  const newNode = graphUtils.createNode(getNodeId(), type, position, nodes, edges);
+  const newNode = createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
+};
+
+const onNodeClick = (event: NodeMouseEvent) => {
+  if (!event.node) return;
+  currentNodeId.value = event.node.id;
+
+  const { metaParentType, metaChildType, ...rest } = event.node.data;
+  options.value = { label: event.node.label as string, data: { ...rest } };
 };
 const updateNode = () => {
   const node = findNode(currentNodeId.value);
@@ -153,6 +124,10 @@ const updateNode = () => {
   node.data = { ...node.data, ...options.value.data };
   node.style = { backgroundColor: options.value.data.background };
 };
+const deleteNode = () => {
+  removeNodes([currentNodeId.value]);
+};
+
 const onEdgeUpdateStart = () => {
   edgeUpdateSuccessful.value = false;
 };
@@ -162,9 +137,6 @@ const onEdgeUpdateEnd = ({ edge }: FlowEvents['edgeUpdateEnd']) => {
 const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
   edgeUpdateSuccessful.value = true;
   updateEdge(edge, connection);
-};
-const deleteNode = () => {
-  removeNodes([currentNodeId.value]);
 };
 </script>
 

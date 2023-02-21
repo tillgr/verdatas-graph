@@ -3,7 +3,7 @@ import { NodeType } from 'models';
 
 export const ImportSpacing: [number, number] = [160, 100];
 
-const parseJsonFile = async (file: File) => {
+export const parseJsonFile = async (file: File) => {
   return new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onload = (e: any) => resolve(JSON.parse(e?.target?.result));
@@ -17,7 +17,7 @@ export type d3Hierarchy = {
   children: any[];
 };
 
-const filterJsonFile = (file: IliasGraph): d3Hierarchy => {
+export const filterJsonFile = (file: IliasGraph): d3Hierarchy => {
   const modules = file[IliasNodeTypes.Modules]?.map((module: Module) => {
     const chapters = module[IliasNodeTypes.Chapters]?.map((chapter: Chapter) => {
       const interactiveTasks = chapter[IliasNodeTypes.InteractiveTasks]?.map((task: InteractiveTask) => {
@@ -33,9 +33,4 @@ const filterJsonFile = (file: IliasGraph): d3Hierarchy => {
     type: 'topic',
     children: modules,
   };
-};
-
-export const importUtils = {
-  parseJsonFile,
-  filterJsonFile,
 };

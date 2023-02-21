@@ -5,15 +5,15 @@ import { d3Hierarchy, ImportSpacing } from 'utils/import';
 import { hierarchy, HierarchyPointLink, tree } from 'd3';
 import { NodesData } from 'models/NodeData';
 
-const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
+export const getNodeById = (id: string, nodes: Ref<GraphNode<any, any>[]>): Node | undefined => {
   return nodes.value.filter((el) => {
     return el.id === id;
   })[0];
 };
-const edgeContainsNode = (edge: GraphEdge, node: Node) => {
+export const edgeContainsNode = (edge: GraphEdge, node: Node) => {
   return edge.id.includes(node.id);
 };
-const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
+export const edgeContainsNodeType = (edge: GraphEdge, type: string) => {
   return edge.sourceNode.type === type || edge.targetNode.type === type;
 };
 const matchNodeTypes = (id: string, nodes: Ref<GraphNode<any, any>[]>, types?: (NodeType | undefined)[]): boolean => {
@@ -40,7 +40,7 @@ const checkForMultipleParents = (
   );
 };
 
-const getValidationFunctions = (
+export const getValidationFunctions = (
   nodeData: NodeData,
   nodesRef: Ref<GraphNode<any, any>[]>,
   edgesRef: Ref<GraphEdge<any, any>[]>
@@ -61,7 +61,7 @@ const getValidationFunctions = (
   };
 };
 
-const createNode = (
+export const createNode = (
   id: string,
   type: NodeType,
   position: { x: number; y: number },
@@ -95,7 +95,7 @@ const createEdge = (source: string, target: string): Edge => {
   };
 };
 
-const calculateTreeLayout = (
+export const calculateTreeLayout = (
   hierarchyData: d3Hierarchy,
   nodesRef: Ref<GraphNode<any, any>[]>,
   edgesRef: Ref<GraphEdge<any, any>[]>
@@ -107,7 +107,7 @@ const calculateTreeLayout = (
 
   try {
     _tree.each((node: any) => {
-      const newNode = graphUtils.createNode(
+      const newNode = createNode(
         node.data.id,
         node.data.type.toLowerCase(),
         {
@@ -121,22 +121,10 @@ const calculateTreeLayout = (
     });
 
     newEdges = _tree.links().map((node: HierarchyPointLink<any>) => {
-      return graphUtils.createEdge(node.source.data.id, node.target.data.id);
+      return createEdge(node.source.data.id, node.target.data.id);
     });
   } catch (e) {
     console.error(e);
   }
   return { edges: newEdges, nodes: newNodes };
-};
-
-export const graphUtils = {
-  getNodeById,
-  edgeContainsNode,
-  edgeContainsNodeType,
-  compareNodeTypes: matchNodeTypes,
-  checkForMultipleParents,
-  getValidationFunctions,
-  createNode,
-  createEdge,
-  calculateTreeLayout,
 };
