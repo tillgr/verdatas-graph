@@ -13,9 +13,10 @@
     "@vue-flow/controls": "^1.0.3",
     "@vue-flow/core": "^1.14.3",
     "@vue-flow/minimap": "^1.0.3",
+    "bootstrap-icons-vue": "^1.8.1",
     "d3": "^7.8.2",
     "pinia": "^2.0.30",
-    "vue": "^3.2.41"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@types/d3": "^7.4.0",

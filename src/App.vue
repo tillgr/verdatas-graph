@@ -160,28 +160,39 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
       @edge-update-start="onEdgeUpdateStart"
       @edge-update-end="onEdgeUpdateEnd"
     >
-      <div style="position: absolute; left: 10px; top: 10px; z-index: 4">
-        <button @click="store.log">log store state</button>
-        <button @click="undo">semantic undo</button>
-        <button @click="redo">semantic redo</button>
+      <div class="history-controls">
+        <button @click="undo">
+          <b-icon-arrow-counterclockwise />
+          undo
+        </button>
+        <button @click="redo">
+          <b-icon-arrow-clockwise />
+          redo
+        </button>
       </div>
       <Background pattern-color="#aaa" :gap="8" />
       <MiniMap />
       <Controls />
       <div class="updatenode__controls">
-        <strong>Edit node</strong>
-        <label>label:</label>
-        <input v-model="options.label" @input="updateNode" />
-        <div v-for="key of optionKeys">
-          <label>{{ key }}:</label>
-          <input v-if="key === 'background'" v-model="options.data.background" type="color" @input="updateNode" />
-          <select v-else-if="typeof options.data[key] == 'boolean'" v-model="options.data[key]">
-            <option value="true">true</option>
-            <option value="false">false</option>
-          </select>
-          <input v-else v-model="options.data[key]" @input="updateNode" />
+        <h2>Edit node</h2>
+        <div>
+          <div class="mask-item">
+            <label>label:</label>
+            <input v-model="options.label" @input="updateNode" />
+          </div>
+          <div class="mask-item" v-for="key of optionKeys">
+            <label>{{ key }}:</label>
+            <input v-if="key === 'background'" v-model="options.data.background" type="color" @input="updateNode" />
+            <select v-else-if="typeof options.data[key] == 'boolean'" v-model="options.data[key]">
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
+            <input v-else v-model="options.data[key]" @input="updateNode" />
+          </div>
+          <div class="mask-item">
+            <button class="delete-button" @click="deleteNode">delete</button>
+          </div>
         </div>
-        <button class="delete-button" @click="deleteNode">delete</button>
       </div>
       <template #node-module="props">
         <Module v-bind="props" />

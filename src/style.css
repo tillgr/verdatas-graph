@@ -15,6 +15,40 @@ body,
   height: 100%;
 }
 
+.history-controls {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 4;
+  display: flex;
+  gap: 0.25rem;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  border: 1px solid #2C3E50FF;
+  border-radius: 0.1rem;
+  height: 1.5rem;
+}
+
+input {
+  height: 1.5rem !important;
+}
+
+button svg {
+  margin-right: 0.1rem;
+}
+
+label {
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem 0;
+}
+
 #app {
   text-transform: uppercase;
   font-family: 'JetBrains Mono', monospace;

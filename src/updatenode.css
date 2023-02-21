@@ -6,7 +6,27 @@
   font-size: 12px;
   background-color: #d3d3d3;
   border-radius: 10px;
-  padding: 8px
+  padding: 8px;
+}
+
+.updatenode__controls > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.mask-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.mask-item:last-child {
+  justify-content: end;
 }
 
 .updatenode__controls label {

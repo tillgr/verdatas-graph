@@ -107,4 +107,8 @@ aside {
   margin-top: 2rem;
   display: block;
 }
+
+.description {
+  text-align: left;
+}
 </style>
