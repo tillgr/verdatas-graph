@@ -70,7 +70,7 @@ h2 {
   color: #444444;
   text-align: center;
   font-size: 12px;
-  background-color: #eeeeee;
+  background-color: white;
 }
 
 .vue-flow__node-module {
@@ -106,7 +106,7 @@ h2 {
 }
 
 .validationflow .vue-flow__node-customnode {
-  background: #e6e6e9;
+  background: white;
   border: 1px solid #ddd
 }
 
@@ -115,7 +115,7 @@ h2 {
 }
 
 .validationflow .vue-flow__node-custominput {
-  background: #fff
+  background: white;
 }
 
 .validationflow .vue-flow__handle-connecting {

@@ -56,24 +56,28 @@ const importIlias = async (e: Event) => {
 
 <template>
   <aside>
-    <div class="description">You can drag these nodes to the pane on the left.</div>
-    <div
-      v-for="type of NodeType"
-      class="node-templates"
-      :class="'vue-flow__node-' + type"
-      :draggable="true"
-      @dragstart="(event: DragEvent) => onDragStart(event, type)"
-    >
-      {{ type }}
+    <div class="node-section">
+      <div class="description">You can drag these nodes to the pane on the left.</div>
+      <div
+        v-for="type of NodeType"
+        class="node-templates"
+        :class="'vue-flow__node-' + type"
+        :draggable="true"
+        @dragstart="(event: DragEvent) => onDragStart(event, type)"
+      >
+        {{ type }}
+      </div>
     </div>
-    <button class="export-button" @click="handleExport">Export graph</button>
-    <div class="file-input">
-      <label for="graph-input">Import graph</label>
-      <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => importGraph(e)" />
-    </div>
-    <div class="file-input">
-      <label for="ilias-input">Import from ilias</label>
-      <input type="file" id="selectFiles" accept=".json" name="ilias-input" @change="(e) => importIlias(e)" />
+    <div class="export-section">
+      <button class="export-button" @click="handleExport">Export graph</button>
+      <div class="file-input">
+        <label for="graph-input">Import graph</label>
+        <input type="file" id="selectFiles" accept=".json" name="graph-input" @change="(e) => importGraph(e)" />
+      </div>
+      <div class="file-input">
+        <label for="ilias-input">Import from ilias</label>
+        <input type="file" id="selectFiles" accept=".json" name="ilias-input" @change="(e) => importIlias(e)" />
+      </div>
     </div>
   </aside>
 </template>
@@ -88,6 +92,13 @@ const importIlias = async (e: Event) => {
   width: fit-content;
 }
 
+.node-section,
+.export-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .node-templates {
   width: 150px;
   border-radius: 5px;
@@ -100,6 +111,19 @@ const importIlias = async (e: Event) => {
 
 aside {
   min-width: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 767px) {
+  aside {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .export-section {
+    justify-content: flex-end;
+  }
 }
 
 .export-button {

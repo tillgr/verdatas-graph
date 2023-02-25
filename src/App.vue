@@ -55,11 +55,16 @@ const optionKeys = computed(() => Object.keys(options.value.data) ?? []);
 watch(
   () => store.elements,
   (data: unknown[], oldData: unknown[]) => {
+    //new action => new state observed
     if (!isEqualDeep(data, oldData, observedKeys) && !historyUsed.value) {
+      //TODO clear history above index pointer: funktioniert?
+      //TODO kanten erhalten ohne knoten?
+      store.cleanHistoryAbove(historyLocation.value);
       store.pushToHistory(data);
       console.log('history', store.history);
     }
     historyUsed.value = false;
+    console.log('elements', store.elements);
   },
   { deep: true }
 );
@@ -107,6 +112,7 @@ const onDrop = (event: DragEvent) => {
 
   const newNode = createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
+  historyUsed.value = false;
 };
 
 const onNodeClick = (event: NodeMouseEvent) => {
