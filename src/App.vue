@@ -23,6 +23,12 @@ import useStore from 'store';
 import { isEqualDeep } from 'utils/history';
 import { createNode } from 'utils/graph';
 
+const defaultHistoryLocation = -1;
+const defaultOptions = {
+  label: '',
+  data: { ...basicOptions },
+};
+
 const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeNodes, removeEdges } = useVueFlow({
   minZoom: 0.2,
   maxZoom: 4,
@@ -34,15 +40,15 @@ let newNodeId = 0;
 
 const edgeUpdateSuccessful = ref(true);
 const currentNodeId = ref('');
-const options = ref({
-  label: '',
-  data: { ...basicOptions },
-});
+const options = ref(defaultOptions);
+const resetOptions = () => {
+  options.value = defaultOptions;
+};
 
 const store = useStore();
-const historyLocation = ref(-1);
+const historyLocation = ref(defaultHistoryLocation);
 const resetHistoryLocation = () => {
-  historyLocation.value = -1;
+  historyLocation.value = defaultHistoryLocation;
 };
 const observedKeys = ['data', 'id', 'type', 'sourceNode', 'targetNode'];
 const historyUsed = ref(false);
@@ -66,11 +72,8 @@ watch(
       store.cleanHistoryAbove(historyLocation.value);
       store.pushToHistory(data);
       resetHistoryLocation();
-      console.log('history', store.history);
     }
     historyUsed.value = false;
-
-    console.log('elements', store.elements);
   },
   { deep: true }
 );
@@ -92,6 +95,10 @@ const redo = () => {
     historyLocation.value++;
     store.elements = store.history.at(historyLocation.value) || [];
   }
+};
+
+const onPaneClick = () => {
+  resetOptions();
 };
 
 const onLoad = (flowInstance: VueFlowStore) => flowInstance.fitView();
@@ -167,6 +174,7 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
       @connect="onConnect"
       @pane-ready="onLoad"
       @node-click="onNodeClick"
+      @pane-click="onPaneClick"
       @edge-update="onEdgeUpdate"
       @edge-update-start="onEdgeUpdateStart"
       @edge-update-end="onEdgeUpdateEnd"
@@ -197,9 +205,10 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
             <select
               v-else-if="typeof options.data[key] == 'boolean' || key.toLowerCase() === 'concludemodule'"
               v-model="options.data[key]"
+              @change="updateNode"
             >
-              <option value="true">true</option>
-              <option value="false">false</option>
+              <option :value="true">true</option>
+              <option :value="false">false</option>
             </select>
             <input type="text" v-else v-model="options.data[key]" @input="updateNode" />
           </div>
