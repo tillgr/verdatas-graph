@@ -41,6 +41,9 @@ const options = ref({
 
 const store = useStore();
 const historyLocation = ref(-1);
+const resetHistoryLocation = () => {
+  historyLocation.value = -1;
+};
 const observedKeys = ['data', 'id', 'type', 'sourceNode', 'targetNode'];
 const historyUsed = ref(false);
 
@@ -59,11 +62,14 @@ watch(
     if (!isEqualDeep(data, oldData, observedKeys) && !historyUsed.value) {
       //TODO clear history above index pointer: funktioniert?
       //TODO kanten erhalten ohne knoten?
+      //TODO bei neuem add history pointer zurücksetzen
       store.cleanHistoryAbove(historyLocation.value);
       store.pushToHistory(data);
+      resetHistoryLocation();
       console.log('history', store.history);
     }
     historyUsed.value = false;
+
     console.log('elements', store.elements);
   },
   { deep: true }
@@ -112,7 +118,6 @@ const onDrop = (event: DragEvent) => {
 
   const newNode = createNode(getNodeId(), type, position, nodes, edges);
   addNodes([newNode]);
-  historyUsed.value = false;
 };
 
 const onNodeClick = (event: NodeMouseEvent) => {
