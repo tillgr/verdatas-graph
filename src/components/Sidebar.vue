@@ -18,7 +18,7 @@ const handleExport = () => {
   const blob = new Blob([data], { type: 'text/plain' });
   const a = document.createElement('a');
 
-  a.download = 'test.json';
+  a.download = 'ver.json';
   a.href = window.URL.createObjectURL(blob);
   a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
   a.click();
