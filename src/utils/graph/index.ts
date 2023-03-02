@@ -78,7 +78,7 @@ export const createNode = (
   return {
     id,
     type,
-    label: `…${id.slice(-5)}`,
+    label: id,
     position,
     data,
     ...validationFunctions,
@@ -108,7 +108,7 @@ export const calculateTreeLayout = (
   try {
     _tree.each((node: any) => {
       const newNode = createNode(
-        node.data.id,
+        `…${node.data.id.slice(-5)}`,
         node.data.type.toLowerCase(),
         {
           x: node.x,
