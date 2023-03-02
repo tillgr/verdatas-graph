@@ -78,7 +78,7 @@ export const createNode = (
   return {
     id,
     type,
-    label: `${type}_node`,
+    label: `…${id.slice(-5)}`,
     position,
     data,
     ...validationFunctions,

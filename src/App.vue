@@ -78,7 +78,7 @@ watch(
   { deep: true }
 );
 
-const getNodeId = () => `dragged_${newNodeId++}`;
+const getNodeId = () => `node_${newNodeId++}`;
 
 const undo = () => {
   historyUsed.value = true;
