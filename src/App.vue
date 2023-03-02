@@ -78,7 +78,7 @@ watch(
   { deep: true }
 );
 
-const getNodeId = () => `node_${newNodeId++}`;
+const getNodeId = () => (newNodeId++).toString();
 
 const undo = () => {
   historyUsed.value = true;
@@ -123,7 +123,9 @@ const onDrop = (event: DragEvent) => {
     y: event.clientY - flowbounds.top,
   });
 
-  const newNode = createNode(getNodeId(), type, position, nodes, edges);
+  const nodeId = getNodeId();
+
+  const newNode = createNode(nodeId, type, position, nodes, edges, `node_${nodeId}`);
   addNodes([newNode]);
 };
 

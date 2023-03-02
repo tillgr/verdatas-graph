@@ -61,12 +61,20 @@ export const getValidationFunctions = (
   };
 };
 
+const createLabelFromId = (id: string) => {
+  const paramsString = id.split('?')[1];
+  const params = new URLSearchParams(paramsString);
+
+  return `node_${params.get('target')}`;
+};
+
 export const createNode = (
   id: string,
   type: NodeType,
   position: { x: number; y: number },
   nodesRef: Ref<GraphNode<any, any>[]>,
-  edgesRef: Ref<GraphEdge<any, any>[]>
+  edgesRef: Ref<GraphEdge<any, any>[]>,
+  label?: string
 ): Node => {
   const data = {
     metaParentType: NodeModel[type].metaParentType,
@@ -78,7 +86,7 @@ export const createNode = (
   return {
     id,
     type,
-    label: id,
+    label: label ?? createLabelFromId(id),
     position,
     data,
     ...validationFunctions,
@@ -108,7 +116,7 @@ export const calculateTreeLayout = (
   try {
     _tree.each((node: any) => {
       const newNode = createNode(
-        `…${node.data.id.slice(-5)}`,
+        node.data.id,
         node.data.type.toLowerCase(),
         {
           x: node.x,
