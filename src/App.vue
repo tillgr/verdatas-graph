@@ -18,7 +18,6 @@ import InteractiveTask from './components/InteractiveTask.vue';
 import Sidebar from './components/Sidebar.vue';
 import { computed, ref, watch } from 'vue';
 import { NodeType } from 'models';
-import { basicOptions } from 'models/NodeData';
 import useStore from 'store';
 import { isEqualDeep } from 'utils/history';
 import { createNode } from 'utils/graph';
@@ -26,7 +25,7 @@ import { createNode } from 'utils/graph';
 const defaultHistoryLocation = -1;
 const defaultOptions = {
   label: '',
-  data: { ...basicOptions },
+  data: {},
 };
 
 const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeNodes, removeEdges } = useVueFlow({
@@ -66,10 +65,7 @@ watch(
   (data: unknown[], oldData: unknown[]) => {
     //new action => new state observed
     if (!isEqualDeep(data, oldData, observedKeys) && !historyUsed.value) {
-      //TODO clear history above index pointer: funktioniert?
-      //TODO kanten erhalten ohne knoten?
-      //TODO bei neuem add history pointer zurücksetzen
-      store.cleanHistoryAbove(historyLocation.value);
+      store.clearHistoryAbove(historyLocation.value);
       store.pushToHistory(data);
       resetHistoryLocation();
     }
@@ -142,7 +138,6 @@ const updateNode = () => {
 
   node.label = options.value.label;
   node.data = { ...node.data, ...options.value.data };
-  node.style = { backgroundColor: options.value.data.background };
 };
 const deleteNode = () => {
   removeNodes([currentNodeId.value]);
@@ -203,9 +198,8 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
           </div>
           <div class="mask-item" v-for="key of optionKeys">
             <label>{{ key }}:</label>
-            <input v-if="key === 'background'" v-model="options.data.background" type="color" @input="updateNode" />
             <select
-              v-else-if="typeof options.data[key] == 'boolean' || key.toLowerCase() === 'concludemodule'"
+              v-if="typeof options.data[key] == 'boolean' || key.toLowerCase() === 'concludemodule'"
               v-model="options.data[key]"
               @change="updateNode"
             >

@@ -10,25 +10,13 @@ export type InteractiveTaskOptions = {
   concludeModule: boolean;
 };
 
-export const basicOptions: { [key: string]: string } = {
-  background: '#ffffff',
-};
-
-export const NodesData: Record<string, InteractiveTaskOptions | ModuleOptions | typeof basicOptions> = {
-  [NodeType.Topic]: {
-    ...basicOptions,
-  },
+export const NodesData: Record<string, InteractiveTaskOptions | ModuleOptions> = {
   [NodeType.Module]: {
-    ...basicOptions,
     structure: '',
     processingTime: 0,
     level: '',
   },
-  [NodeType.Chapter]: {
-    ...basicOptions,
-  },
   [NodeType.InteractiveTask]: {
-    ...basicOptions,
     concludeModule: false,
   },
 };

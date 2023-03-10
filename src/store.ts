@@ -14,7 +14,7 @@ const useStore = defineStore('elementsStore', {
     pushToHistory(data: unknown[]) {
       this.history.push(data);
     },
-    cleanHistoryAbove(idx: number) {
+    clearHistoryAbove(idx: number) {
       const nextIdx = idx + 1;
 
       nextIdx <= -1 && this.history.splice(nextIdx, -nextIdx);
