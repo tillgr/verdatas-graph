@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useVueFlow } from '@vue-flow/core';
-import { NodeType, VueFlowGraph } from 'models';
+import { NodeModel, NodeType, VueFlowGraph } from 'models';
 import { IliasGraph } from 'models/IliasGraph';
 import { filterJsonFile, parseJsonFile } from 'utils/import';
-import { calculateTreeLayout } from 'utils/graph';
+import { calculateTreeLayout, getValidationFunctions } from 'utils/graph';
 
 const { toObject, nodes, edges, removeNodes, addNodes, addEdges } = useVueFlow();
 
@@ -37,7 +37,17 @@ const importGraph = async (e: Event) => {
   if (!file) return;
 
   removeNodes(nodes.value, true);
-  addNodes(file.nodes);
+
+  file.nodes.map((node) => {
+    const data = {
+      metaParentType: NodeModel[node.type].metaParentType,
+      metaChildType: NodeModel[node.type].metaChildType,
+    };
+    const validationFunctions = getValidationFunctions(data, nodes, edges);
+
+    node = { ...node, ...validationFunctions };
+    addNodes([node]);
+  });
   addEdges(file.edges);
 };
 
