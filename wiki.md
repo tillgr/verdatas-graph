@@ -77,4 +77,3 @@ Future work
 * Teleport form next to selected nodes
 * Implement redo/undo for form inputs
 * Fix Drag & Drop Projection
-* BUG: Locking does not prevent editing labels
