@@ -43,6 +43,7 @@ const options = ref(defaultOptions);
 const resetOptions = () => {
   options.value = defaultOptions;
 };
+const isEditingMaskLocked = ref(false);
 
 const store = useStore();
 const historyLocation = ref(defaultHistoryLocation);
@@ -188,8 +189,15 @@ const onEdgeUpdate = ({ edge, connection }: FlowEvents['edgeUpdate']) => {
       </div>
       <Background pattern-color="#aaa" :gap="8" />
       <MiniMap />
-      <Controls />
+      <Controls
+        @interaction-change="
+          () => {
+            isEditingMaskLocked = !isEditingMaskLocked;
+          }
+        "
+      />
       <div class="updatenode__controls">
+        <div v-if="isEditingMaskLocked" class="locker"></div>
         <h2>Edit node</h2>
         <div>
           <div class="mask-item">
