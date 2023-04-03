@@ -58,9 +58,7 @@ Also, the documentation of Drawflow does
 not involve any guide. Diagram.js is more general and does not build upon vue. Features like import/export and editing
 of attributes seem to be added externally.
 
-## Evaluation Feedback
-
-Future work
+## Future work
 
 * Undo event applies not for shifts + no keyboard support for undo/redo (implementation needed)
 * (Optional): Auto alignment feature for arbitrary arrangements
