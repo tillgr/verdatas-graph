@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useVueFlow } from '@vue-flow/core';
+import { Node, useVueFlow } from '@vue-flow/core';
 import { NodeModel, NodeType, VueFlowGraph } from 'models';
 import { IliasGraph } from 'models/IliasGraph';
 import { filterJsonFile, parseJsonFile } from 'utils/import';
@@ -38,10 +38,11 @@ const importGraph = async (e: Event) => {
 
   removeNodes(nodes.value, true);
 
-  file.nodes.map((node) => {
+  file.nodes.map((node: Node) => {
+    if (!node.type || !Object.keys(NodeType).some((k) => k.toLowerCase() === node.type)) return;
     const data = {
-      metaParentType: NodeModel[node.type].metaParentType,
-      metaChildType: NodeModel[node.type].metaChildType,
+      metaParentType: NodeModel[node.type as NodeType].metaParentType,
+      metaChildType: NodeModel[node.type as NodeType].metaChildType,
     };
     const validationFunctions = getValidationFunctions(data, nodes, edges);
 
