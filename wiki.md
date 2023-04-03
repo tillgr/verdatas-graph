@@ -76,4 +76,4 @@ Future work
 * Add localization for germany
 * Teleport form next to selected nodes
 * Implement redo/undo for form inputs
-* Fix Drag & Drop Projection
+* Fix drag & drop projection
