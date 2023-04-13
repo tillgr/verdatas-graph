@@ -35,7 +35,14 @@ const { addEdges, addNodes, project, nodes, edges, findNode, updateEdge, removeN
   fitViewOnInit: false,
 });
 const wrapper = ref();
-let newNodeId = 0;
+
+let newNodeId = computed(() => {
+  const ids = nodes.value.map((node) => {
+    if (typeof +node.id !== 'number') return 0;
+    return +node.id;
+  });
+  return Math.max(...ids);
+});
 
 const edgeUpdateSuccessful = ref(true);
 const currentNodeId = ref('');
@@ -75,7 +82,7 @@ watch(
   { deep: true }
 );
 
-const getNodeId = () => (newNodeId++).toString();
+const getNodeId = () => (newNodeId.value + 1).toString();
 
 const undo = () => {
   historyUsed.value = true;
