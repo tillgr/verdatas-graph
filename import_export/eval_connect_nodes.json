@@ -1,0 +1,849 @@
+{
+  "nodes": [
+    {
+      "type": "topic",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "0__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 405,
+        "y": 165,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaChildType": "module"
+      },
+      "events": {},
+      "id": "0",
+      "label": "node_0",
+      "position": {
+        "x": 405,
+        "y": 165
+      }
+    },
+    {
+      "type": "module",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "1__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "1__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 405,
+        "y": 300,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "topic",
+        "metaChildType": "chapter",
+        "structure": "",
+        "processingTime": 0,
+        "level": ""
+      },
+      "events": {},
+      "id": "1",
+      "label": "node_1",
+      "position": {
+        "x": 405,
+        "y": 300
+      }
+    },
+    {
+      "type": "chapter",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "2__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "2__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 240,
+        "y": 435,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "module",
+        "metaChildType": "interactivetask"
+      },
+      "events": {},
+      "id": "2",
+      "label": "node_2",
+      "position": {
+        "x": 240,
+        "y": 435
+      }
+    },
+    {
+      "type": "interactivetask",
+      "dimensions": {
+        "width": 150,
+        "height": 78
+      },
+      "handleBounds": {
+        "target": [
+          {
+            "id": "3__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 240,
+        "y": 570,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "chapter",
+        "concludeModule": false
+      },
+      "events": {},
+      "id": "3",
+      "label": "node_3",
+      "position": {
+        "x": 240,
+        "y": 570
+      }
+    },
+    {
+      "type": "module",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "4__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "4__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 585,
+        "y": 300,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "topic",
+        "metaChildType": "chapter",
+        "structure": "",
+        "processingTime": 0,
+        "level": ""
+      },
+      "events": {},
+      "id": "4",
+      "label": "node_4",
+      "position": {
+        "x": 585,
+        "y": 300
+      }
+    },
+    {
+      "type": "chapter",
+      "dimensions": {
+        "width": 150,
+        "height": 64
+      },
+      "handleBounds": {
+        "source": [
+          {
+            "id": "5__handle-bottom",
+            "position": "bottom",
+            "x": 71,
+            "y": 59,
+            "width": 8,
+            "height": 8
+          }
+        ],
+        "target": [
+          {
+            "id": "5__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 405,
+        "y": 435,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "module",
+        "metaChildType": "interactivetask"
+      },
+      "events": {},
+      "id": "5",
+      "label": "node_5",
+      "position": {
+        "x": 405,
+        "y": 435
+      }
+    },
+    {
+      "type": "interactivetask",
+      "dimensions": {
+        "width": 150,
+        "height": 78
+      },
+      "handleBounds": {
+        "target": [
+          {
+            "id": "6__handle-top",
+            "position": "top",
+            "x": 71,
+            "y": -3,
+            "width": 8,
+            "height": 8
+          }
+        ]
+      },
+      "computedPosition": {
+        "x": 495,
+        "y": 570,
+        "z": 0
+      },
+      "selected": false,
+      "dragging": false,
+      "resizing": false,
+      "initialized": true,
+      "data": {
+        "metaParentType": "chapter",
+        "concludeModule": false
+      },
+      "events": {},
+      "id": "6",
+      "label": "node_6",
+      "position": {
+        "x": 495,
+        "y": 570
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "vueflow__edge-00__handle-bottom-44__handle-top",
+      "source": "0",
+      "sourceHandle": "0__handle-bottom",
+      "target": "4",
+      "targetHandle": "4__handle-top",
+      "type": "default",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "topic",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "0__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 165,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaChildType": "module"
+        },
+        "events": {},
+        "id": "0",
+        "label": "node_0",
+        "position": {
+          "x": 405,
+          "y": 165
+        }
+      },
+      "targetNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "4__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "4__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 585,
+          "y": 300,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter",
+          "structure": "",
+          "processingTime": 0,
+          "level": ""
+        },
+        "events": {},
+        "id": "4",
+        "label": "node_4",
+        "position": {
+          "x": 585,
+          "y": 300
+        }
+      }
+    },
+    {
+      "id": "vueflow__edge-00__handle-bottom-11__handle-top",
+      "source": "0",
+      "sourceHandle": "0__handle-bottom",
+      "target": "1",
+      "targetHandle": "1__handle-top",
+      "type": "default",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "topic",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "0__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 165,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaChildType": "module"
+        },
+        "events": {},
+        "id": "0",
+        "label": "node_0",
+        "position": {
+          "x": 405,
+          "y": 165
+        }
+      },
+      "targetNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "1__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "1__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 300,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter",
+          "structure": "",
+          "processingTime": 0,
+          "level": ""
+        },
+        "events": {},
+        "id": "1",
+        "label": "node_1",
+        "position": {
+          "x": 405,
+          "y": 300
+        }
+      }
+    },
+    {
+      "id": "vueflow__edge-11__handle-bottom-55__handle-top",
+      "source": "1",
+      "sourceHandle": "1__handle-bottom",
+      "target": "5",
+      "targetHandle": "5__handle-top",
+      "type": "default",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "1__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "1__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 300,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter",
+          "structure": "",
+          "processingTime": 0,
+          "level": ""
+        },
+        "events": {},
+        "id": "1",
+        "label": "node_1",
+        "position": {
+          "x": 405,
+          "y": 300
+        }
+      },
+      "targetNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "5__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "5__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 435,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "5",
+        "label": "node_5",
+        "position": {
+          "x": 405,
+          "y": 435
+        }
+      }
+    },
+    {
+      "id": "vueflow__edge-11__handle-bottom-22__handle-top",
+      "source": "1",
+      "sourceHandle": "1__handle-bottom",
+      "target": "2",
+      "targetHandle": "2__handle-top",
+      "type": "default",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "module",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "1__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "1__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 405,
+          "y": 300,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "topic",
+          "metaChildType": "chapter",
+          "structure": "",
+          "processingTime": 0,
+          "level": ""
+        },
+        "events": {},
+        "id": "1",
+        "label": "node_1",
+        "position": {
+          "x": 405,
+          "y": 300
+        }
+      },
+      "targetNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "2__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "2__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 240,
+          "y": 435,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "2",
+        "label": "node_2",
+        "position": {
+          "x": 240,
+          "y": 435
+        }
+      }
+    },
+    {
+      "id": "vueflow__edge-22__handle-bottom-33__handle-top",
+      "source": "2",
+      "sourceHandle": "2__handle-bottom",
+      "target": "3",
+      "targetHandle": "3__handle-top",
+      "type": "default",
+      "data": {},
+      "events": {},
+      "sourceNode": {
+        "type": "chapter",
+        "dimensions": {
+          "width": 150,
+          "height": 64
+        },
+        "handleBounds": {
+          "source": [
+            {
+              "id": "2__handle-bottom",
+              "position": "bottom",
+              "x": 71,
+              "y": 59,
+              "width": 8,
+              "height": 8
+            }
+          ],
+          "target": [
+            {
+              "id": "2__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 240,
+          "y": 435,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "module",
+          "metaChildType": "interactivetask"
+        },
+        "events": {},
+        "id": "2",
+        "label": "node_2",
+        "position": {
+          "x": 240,
+          "y": 435
+        }
+      },
+      "targetNode": {
+        "type": "interactivetask",
+        "dimensions": {
+          "width": 150,
+          "height": 78
+        },
+        "handleBounds": {
+          "target": [
+            {
+              "id": "3__handle-top",
+              "position": "top",
+              "x": 71,
+              "y": -3,
+              "width": 8,
+              "height": 8
+            }
+          ]
+        },
+        "computedPosition": {
+          "x": 240,
+          "y": 570,
+          "z": 0
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "initialized": true,
+        "data": {
+          "metaParentType": "chapter",
+          "concludeModule": false
+        },
+        "events": {},
+        "id": "3",
+        "label": "node_3",
+        "position": {
+          "x": 240,
+          "y": 570
+        }
+      }
+    }
+  ],
+  "position": [
+    0,
+    0
+  ],
+  "zoom": 1
+}
