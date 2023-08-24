@@ -41,6 +41,7 @@ let newNodeId = computed(() => {
     if (typeof +node.id !== 'number') return 0;
     return +node.id;
   });
+  if (!ids.length) return 0;
   return Math.max(...ids);
 });
 
@@ -82,7 +83,9 @@ watch(
   { deep: true }
 );
 
-const getNodeId = () => (newNodeId.value + 1).toString();
+const getNodeId = () => {
+  return (newNodeId.value + 1).toString();
+};
 
 const undo = () => {
   historyUsed.value = true;
